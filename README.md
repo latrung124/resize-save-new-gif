@@ -22,7 +22,8 @@ Follow these steps to clone and build the repository:
 ### 1. Clone the Repository  
 ```bash  
 git clone https://github.com/<your-username>/<repository-name>.git  
-cd <repository-name>  
+cd <repository-name>
+```
 
 ### 2. **Install Dependencies**
 Download the latest version of Giflib source from: https://sourceforge.net/projects/giflib/files/
