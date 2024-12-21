@@ -17,6 +17,7 @@
 #include <QFile>
 #include <QImageWriter>
 #include <QVariant>
+#include "gif_lib.h"
 
 extern "C" {
     #include "getarg.h"

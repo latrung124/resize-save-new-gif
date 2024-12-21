@@ -1,7 +1,8 @@
 qt_add_library(GuiComponent STATIC)
 
 target_link_libraries(GuiComponent PRIVATE
-                        Qt6::Quick)
+                        Qt6::Quick
+                        Qt6::Core5Compat)
 
 set_source_files_properties(MainWindow.qml
     PROPERTIES
@@ -10,6 +11,8 @@ set_source_files_properties(MainWindow.qml
 
 set(components
     Component/CustomButton.qml
+    Component/SidebarIconButton.qml
+    Component/CustomTextField.qml
 )
 
 foreach(component ${components})
@@ -22,5 +25,14 @@ qt_add_qml_module(GuiComponent
     OUTPUT_DIRECTORY GuiComponent
     QML_FILES
         MainWindow.qml
+        SideBar.qml
+        AspectRatioFeature.qml
         Component/CustomButton.qml
+        Component/SidebarIconButton.qml
+        Component/CustomTextField.qml
+    RESOURCES
+        "Resources/crop-sidebar-icon.svg"
+        "Resources/crop-sidebar-icon.png"
+        "Resources/aspect-ratio.svg"
+        "Resources/aspect-ratio.png"
 )
