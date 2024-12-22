@@ -1,63 +1,72 @@
-// CustomButton.qml
+/*
+* CustomButton.qml
+* Author: Trung La
+* Date: 2024-12-22
+*/
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Basic
 
-Button {
-    id: customButton
-    text: "Button 27"
-
-    // Custom properties
+Item {
+    id: root
     property int animationDuration: 300
 
-    // Main button layout
+    property alias text: buttonText.text
+
     implicitWidth: parent.width
     implicitHeight: 60
 
-    background: Rectangle {
+    signal clicked()
+
+    Rectangle {
         id: buttonBackground
-        color: customButton.enabled ? "#000000" : "#666666"  // Darker when disabled
+        anchors.fill: parent
+        color: "#000000"
         border.width: 2
         border.color: "#1A1A1A"
         radius: 15
+        states: [
+            State {
+                name: "hovered"
+                when: mouseArea.containsMouse
+                PropertyChanges { target: buttonBackground; opacity: 0.8 }
+            },
+            State {
+                name: "normal"
+                when: !mouseArea.containMouse
+                PropertyChanges { target: buttonBackground; opacity: 1 }
+            }
+        ]
     }
 
-    contentItem: Text {
-        text: customButton.text
-        font.family: "Segoe UI"
+    Text {
+        id: buttonText
+        text: root.text
+        font.family: "Helvetica"
         font.pixelSize: 16
         font.weight: Font.DemiBold
         color: "#FFFFFF"
+        anchors.centerIn: parent
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
 
-    // Transitions and behaviors
     Behavior on y {
         NumberAnimation {
-            duration: customButton.animationDuration
+            duration: root.animationDuration
             easing.type: Easing.Bezier
             easing.bezierCurve: [0.23, 1, 0.32, 1, 1]
         }
     }
 
-    // States for different button conditions
-    states: [
-        State {
-            name: "hovered"
-            when: customButton.hovered && !customButton.pressed
-            PropertyChanges {
-                target: customButton
-                y: y - 2  // Move up when hovered
-            }
-        }
-    ]
-
-    // Mouse area to handle pointer events
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
-        onPressed: mouse.accepted = false  // Let the Button handle the event
+        hoverEnabled: true
+        onClicked: function() {
+            root.clicked()
+        }
     }
 }

@@ -15,6 +15,10 @@ Item {
     height: 50
 
     property string iconSource: ""
+    property alias iconWidth: iconImage.width
+    property alias iconHeight: iconImage.height
+
+    opacity: 0.8
     signal clicked()
 
     Rectangle {
@@ -33,6 +37,8 @@ Item {
         source: iconSource
         fillMode: Image.PreserveAspectFit
         anchors.centerIn: parent
+        smooth: true
+        antialiasing: true
     }
 
     ColorOverlay {
@@ -60,7 +66,7 @@ Item {
 
             PropertyChanges {
                 target: backgroundRect
-                color: "#D8C4B6"
+                color: "#2A3335"
             }
 
             StateChangeScript {
@@ -74,7 +80,7 @@ Item {
             when: !mouseArea.containsMouse
             PropertyChanges {
                 target: colorOverlay
-                color: "black"
+                color: "#000000"
             }
 
             PropertyChanges {

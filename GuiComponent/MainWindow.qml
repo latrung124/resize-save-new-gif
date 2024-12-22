@@ -51,6 +51,7 @@ ApplicationWindow {
             text: "Image Tool"
             font.pixelSize: 24
             font.weight: Font.Bold
+            font.family: "Helvetica"
             color: "#333333"
         }
     }
@@ -111,7 +112,7 @@ ApplicationWindow {
             }
         }
 
-        Item {
+        ImageContent {
             id: imageContent
             anchors {
                 top: parent.top
@@ -120,12 +121,6 @@ ApplicationWindow {
                 right: parent.right
                 leftMargin: 2
                 rightMargin: 2
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                radius: 4
-                color: "#BCCCDC"
             }
         }
     }

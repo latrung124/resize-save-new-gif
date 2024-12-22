@@ -36,7 +36,7 @@ Rectangle {
                 when: sideBarIconButtonMouseArea.containsMouse && !sideBarIconButton.isSelected
                 PropertyChanges {
                     target: backgroundRect
-                    color: "#D8C4B6"
+                    color: "#2A3335"
                 }
             },
             State {
@@ -52,7 +52,7 @@ Rectangle {
                 when: sideBarIconButton.isSelected
                 PropertyChanges {
                     target: backgroundRect
-                    color: "#EED3B1"
+                    color: "#000000"
                 }
             }
         ]

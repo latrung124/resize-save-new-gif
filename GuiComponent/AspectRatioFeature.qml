@@ -45,6 +45,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     font.pixelSize: 22
                     font.weight: Font.Bold
+                    font.family: "Helvetica"
                     color: internal.textColor
                 }
             }
@@ -66,6 +67,7 @@ Item {
                     font {
                         pixelSize: 18
                         weight: Font.Bold
+                        family: "Helvetica"
                     }
                     color: internal.textColor
                 }
@@ -119,6 +121,7 @@ Item {
                     font {
                         pixelSize: 18
                         weight: Font.Bold
+                        family: "Helvetica"
                     }
                     color: internal.textColor
                 }
@@ -160,6 +163,7 @@ Item {
                     font {
                         pixelSize: 18
                         weight: Font.Bold
+                        family: "Helvetica"
                     }
                     color: internal.textColor
                 }

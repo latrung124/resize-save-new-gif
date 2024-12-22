@@ -30,6 +30,7 @@ qt_add_qml_module(GuiComponent
         SideBar.qml
         AspectRatioFeature.qml
         CropFeature.qml
+        ImageContent.qml
         Component/CustomButton.qml
         Component/FeatureButton.qml
         Component/SidebarIconButton.qml
@@ -45,4 +46,8 @@ qt_add_qml_module(GuiComponent
         "Resources/rotate-90-degrees-cw.svg"
         "Resources/rotate-90-degrees-cw.png"
         "Resources/flip-horizontal.svg"
+        "Resources/refresh.svg"
+        "Resources/refresh.png"
+        "Resources/delete.svg"
+        "Resources/delete.png"
 )
