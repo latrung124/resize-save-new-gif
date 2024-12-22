@@ -14,6 +14,8 @@ Item {
     implicitWidth: 350
     implicitHeight: 350
 
+    property string imageSource: ""
+
     Rectangle {
         anchors.fill: parent
         color: "#F5EFE7"
@@ -35,7 +37,56 @@ Item {
             id: imageRect
             Layout.fillWidth: true
             Layout.fillHeight: true
+            color: "#F5F5F5"
             radius: 4
+
+            Column {
+                anchors.centerIn: parent
+                spacing: 8
+                visible: !image.source.toString()
+
+                Image {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    source: `Resources/add-image.png`
+                    width: 48
+                    height: 48
+                    opacity: 0.5
+                }
+
+                Text {
+                    text: "Drop image here"
+                    color: "#757575"
+                    font.pixelSize: 14
+                }
+            }
+
+            Image {
+                id: image
+                anchors.fill: parent
+                source: root.imageSource
+                fillMode: Image.PreserveAspectFit
+                asynchronous: true
+                cache: false
+
+                BusyIndicator {
+                    anchors.centerIn: parent
+                    running: image.status === Image.Loading
+                }
+            }
+
+            DropArea {
+                id: dropArea
+                anchors.fill: parent
+                onDropped: function(drop) {
+                    if (drop.hasUrls) {
+                        root.imageSource = drop.urls[0]
+                        root.imageDropped(drop.urls[0])
+                    } else if (drop.hasText) {
+                        root.imageSource = drop.text
+                        root.imageDropped(drop.text)
+                    }
+                }
+            }
         }
 
         Rectangle {
