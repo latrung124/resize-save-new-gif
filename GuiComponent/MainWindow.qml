@@ -60,6 +60,7 @@ ApplicationWindow {
         id: sideBarRect
         anchors {
             top: titleBar.bottom
+            topMargin: 2
             left: parent.left
             bottom: parent.bottom
         }
@@ -73,7 +74,7 @@ ApplicationWindow {
                 top: parent.top
                 left: parent.left
             }
-            onFeatureSelected: {
+            onFeatureSelected: function(source) {
                 featureLoader.source = source
             }
         }
@@ -83,6 +84,7 @@ ApplicationWindow {
         id: sideButtonContentRect
         anchors {
             top: titleBar.bottom
+            topMargin: 2
             left: sideBarRect.right
             right: parent.right
             bottom: parent.bottom
@@ -100,15 +102,10 @@ ApplicationWindow {
             }
             width: 350
 
-            Rectangle {
+            Loader {
+                id: featureLoader
                 anchors.fill: parent
-                color: "#3E5879"
-                radius: 4
-                Loader {
-                    id: featureLoader
-                    anchors.fill: parent
-                    source: ""
-                }
+                source: ""
             }
         }
 

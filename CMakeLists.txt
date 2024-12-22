@@ -14,8 +14,8 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Qml Quick Core5Compat)
 qt_standard_project_setup(REQUIRES 6.5)
 
 set(CONTROLLER_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/ModuleController/ModuleController.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/ModuleController/ModuleController.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ModuleController.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ModuleController.cpp
 )
 
 add_executable(convert-image-application
@@ -25,6 +25,10 @@ add_executable(convert-image-application
 )
 
 #add include path for giflib and libutil
+target_include_directories(convert-image-application PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller
+)
+
 target_link_directories(convert-image-application PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )

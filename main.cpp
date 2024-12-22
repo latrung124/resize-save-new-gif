@@ -1,4 +1,4 @@
-#include "ModuleController/ModuleController.h"
+#include "ModuleController.h"
 #include <QGuiApplication>
 
 #include "WrapperGifLib/IGifConverter.h"

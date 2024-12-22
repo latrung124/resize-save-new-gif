@@ -45,9 +45,12 @@ qt_add_qml_module(GuiComponent
         "Resources/rotate-90-degrees.png"
         "Resources/rotate-90-degrees-cw.svg"
         "Resources/rotate-90-degrees-cw.png"
-        "Resources/flip-horizontal.svg"
+        "Resources/flip-horizontal-left.png"
+        "Resources/flip-horizontal-right.png"
         "Resources/refresh.svg"
         "Resources/refresh.png"
         "Resources/delete.svg"
         "Resources/delete.png"
+        "Resources/file-explorer.svg"
+        "Resources/file-explorer.png"
 )

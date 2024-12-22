@@ -79,9 +79,9 @@ Item {
                         right: parent.right
                         rightMargin: 20
                         top: resizeText.bottom
-                        topMargin: internal.featureRowTopMargin
+                        topMargin: 15
                         bottom: parent.bottom
-                        bottomMargin: 10
+                        bottomMargin: 15
                     }
                     spacing: internal.featureRowSpacing
 
@@ -197,10 +197,10 @@ Item {
     ListModel {
         id: flipFeatureModel
         ListElement {
-            icon: `Resources/flip-horizontal.svg`
+            icon: `Resources/flip-horizontal-left.png`
         }
         ListElement {
-            icon: `Resources/flip-horizontal.svg`
+            icon: `Resources/flip-horizontal-right.png`
         }
     }
 
@@ -208,7 +208,7 @@ Item {
         id: internal
 
         property color textColor: "black"
-        property color backgroundColor: "#3E5879"
+        property color backgroundColor: "transparent"
         property color borderColor: "#F5EFE7"
 
         property int featureRowWidth: 110

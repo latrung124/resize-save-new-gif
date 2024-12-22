@@ -27,7 +27,7 @@ Rectangle {
         anchors.fill: parent
         color: "white"
         anchors.centerIn: parent
-        anchors.margins: 5
+        anchors.margins: 8
         radius: 4
 
         states: [

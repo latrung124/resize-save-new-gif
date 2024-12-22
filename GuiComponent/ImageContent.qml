@@ -16,28 +16,31 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#ffffff"
+        color: "#F5EFE7"
         radius: 4
     }
 
     ColumnLayout {
-        anchors.fill: parent
+        anchors {
+            top: parent.top
+            left: parent.left
+            leftMargin: 2
+            right: parent.right
+            rightMargin: 2
+            bottom: parent.bottom
+        }
         spacing: 2
 
         Rectangle {
             id: imageRect
             Layout.fillWidth: true
             Layout.fillHeight: true
-            border.color: "black"
-            border.width: 1
             radius: 4
         }
 
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 80
-            border.color: "blue"
-            border.width: 1
             radius: 4
 
             RowLayout {
@@ -79,6 +82,9 @@ Item {
 
     ListModel {
         id: featureModel
+        ListElement {
+            icon: "Resources/file-explorer.png"
+        }
         ListElement {
             icon: "Resources/refresh.png"
         }

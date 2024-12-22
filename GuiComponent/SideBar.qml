@@ -22,7 +22,6 @@ Rectangle {
             model: sideBarModel
             delegate: SidebarIconButton {
                 id: sideBarIconButton
-
                 isSelected: root.selectedIndex === index
                 iconSource: model.icon
                 onClicked: function() {

@@ -11,6 +11,8 @@ import QtQuick.Controls.Basic
 
 TextField {
     id: root
+
+    property int limitedSize: 700
     width: 150
     placeholderText: "Only numbers"
     font.pointSize: 12
@@ -23,7 +25,7 @@ TextField {
 
     validator: IntValidator {
         bottom: 0 // Set a minimum value if needed
-        top: 700 // Set a maximum value if needed
+        top: limitedSize // Set a maximum value if needed
     }
 }
 
