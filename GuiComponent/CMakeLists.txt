@@ -11,8 +11,10 @@ set_source_files_properties(MainWindow.qml
 
 set(components
     Component/CustomButton.qml
+    Component/FeatureButton.qml
     Component/SidebarIconButton.qml
     Component/CustomTextField.qml
+    Component/RowFeatureButtons.qml
 )
 
 foreach(component ${components})
@@ -27,12 +29,20 @@ qt_add_qml_module(GuiComponent
         MainWindow.qml
         SideBar.qml
         AspectRatioFeature.qml
+        CropFeature.qml
         Component/CustomButton.qml
+        Component/FeatureButton.qml
         Component/SidebarIconButton.qml
         Component/CustomTextField.qml
+        Component/RowFeatureButtons.qml
     RESOURCES
         "Resources/crop-sidebar-icon.svg"
         "Resources/crop-sidebar-icon.png"
         "Resources/aspect-ratio.svg"
         "Resources/aspect-ratio.png"
+        "Resources/rotate-90-degrees.svg"
+        "Resources/rotate-90-degrees.png"
+        "Resources/rotate-90-degrees-cw.svg"
+        "Resources/rotate-90-degrees-cw.png"
+        "Resources/flip-horizontal.svg"
 )

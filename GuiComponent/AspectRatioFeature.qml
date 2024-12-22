@@ -19,7 +19,7 @@ Item {
     Rectangle {
         id: backgroundRect
         anchors.fill: parent
-        color: "#3E5879"
+        color: internal.backgroundColor
         radius: 4
     }
 
@@ -36,16 +36,16 @@ Item {
             Item {
                 id: titleItem
                 Layout.fillWidth: true
-                height: 50
+                height: internal.featureRowHeight
 
                 Text {
                     text: "Aspect Ratio"
                     anchors.left: parent.left
-                    anchors.leftMargin: 20
+                    anchors.leftMargin: internal.featureRowLeftMargin
                     anchors.verticalCenter: parent.verticalCenter
                     font.pixelSize: 22
                     font.weight: Font.Bold
-                    color: "black"
+                    color: internal.textColor
                 }
             }
 
@@ -56,27 +56,32 @@ Item {
 
                 Text {
                     id: resizeText
-                    text: "Resize"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: 18
-                    font.weight: Font.Bold
-                    color: "black"
+                    text: qsTr("Resize")
+                    anchors {
+                        left: parent.left
+                        leftMargin: internal.featureRowLeftMargin
+                        top: parent.top
+                        topMargin: internal.featureRowTopMargin
+                    }
+                    font {
+                        pixelSize: 18
+                        weight: Font.Bold
+                    }
+                    color: internal.textColor
                 }
 
                 RowLayout {
                     anchors {
                         left: parent.left
-                        leftMargin: 20
+                        leftMargin: internal.featureRowLeftMargin
                         right: parent.right
                         rightMargin: 20
                         top: resizeText.bottom
-                        topMargin: 5
+                        topMargin: internal.featureRowTopMargin
                         bottom: parent.bottom
-                        bottomMargin: 5
+                        bottomMargin: 10
                     }
-                    spacing: 10
+                    spacing: internal.featureRowSpacing
 
                     CustomTextField {
                         Layout.fillWidth: true
@@ -93,8 +98,8 @@ Item {
 
             Rectangle {
                 Layout.fillWidth: true
-                height: 1
-                color: "#F5EFE7"
+                height: internal.borderLineHeight
+                color: internal.borderColor
             }
 
             Item {
@@ -103,20 +108,39 @@ Item {
                 Layout.preferredHeight: 99
 
                 Text {
-                    text: "Rotate"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: 18
-                    font.weight: Font.Bold
-                    color: "black"
+                    id: rotateText
+                    text: qsTr("Rotate")
+                    anchors {
+                        left: parent.left
+                        leftMargin: internal.featureRowLeftMargin
+                        top: parent.top
+                        topMargin: internal.featureRowTopMargin
+                    }
+                    font {
+                        pixelSize: 18
+                        weight: Font.Bold
+                    }
+                    color: internal.textColor
+                }
+
+                RowFeatureButtons {
+                    id: rotateFeatureButtons
+                    model: rotateFeatureModel
+                    width: internal.featureRowWidth
+                    height: internal.featureRowHeight
+                    anchors {
+                        left: parent.left
+                        leftMargin: internal.featureRowLeftMargin
+                        top: rotateText.bottom
+                        topMargin: internal.featureRowTopMargin
+                    }
                 }
             }
 
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: "#F5EFE7"
+                color: internal.borderColor
             }
 
             Item {
@@ -125,15 +149,69 @@ Item {
                 Layout.preferredHeight: 99
 
                 Text {
-                    text: "Flip"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: 18
-                    font.weight: Font.Bold
-                    color: "black"
+                    id: flipText
+                    text: qsTr("Flip")
+                    anchors {
+                        left: parent.left
+                        leftMargin: 20
+                        top: parent.top
+                        topMargin: internal.featureRowTopMargin
+                    }
+                    font {
+                        pixelSize: 18
+                        weight: Font.Bold
+                    }
+                    color: internal.textColor
+                }
+
+                RowFeatureButtons {
+                    id: flipFeatureButtons
+                    model: flipFeatureModel
+                    width: internal.featureRowWidth
+                    height: internal.featureRowHeight
+                    anchors {
+                        left: parent.left
+                        leftMargin: internal.featureRowLeftMargin
+                        top: flipText.bottom
+                        topMargin: internal.featureRowTopMargin
+                    }
                 }
             }
         }
+    }
+
+    ListModel {
+        id: rotateFeatureModel
+        ListElement {
+            icon: `Resources/rotate-90-degrees.svg`
+        }
+        ListElement {
+            icon: `Resources/rotate-90-degrees-cw.svg`
+        }
+    }
+
+    ListModel {
+        id: flipFeatureModel
+        ListElement {
+            icon: `Resources/flip-horizontal.svg`
+        }
+        ListElement {
+            icon: `Resources/flip-horizontal.svg`
+        }
+    }
+
+    QtObject {
+        id: internal
+
+        property color textColor: "black"
+        property color backgroundColor: "#3E5879"
+        property color borderColor: "#F5EFE7"
+
+        property int featureRowWidth: 110
+        property int featureRowHeight: 50
+        property int featureRowSpacing: 10
+        property int featureRowTopMargin: 5
+        property int featureRowLeftMargin: 20
+        property int borderLineHeight: 1
     }
 }

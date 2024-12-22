@@ -8,6 +8,7 @@
 import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
+
 Rectangle {
     id: sideBarIconButton
 
@@ -17,6 +18,8 @@ Rectangle {
     radius: 4
 
     property string iconSource: ""
+    property bool isSelected: false
+
     signal clicked()
 
     Rectangle {
@@ -30,19 +33,26 @@ Rectangle {
         states: [
             State {
                 name: "hovered"
-                when: sideBarIconButtonMouseArea.containsMouse
+                when: sideBarIconButtonMouseArea.containsMouse && !sideBarIconButton.isSelected
                 PropertyChanges {
                     target: backgroundRect
                     color: "#D8C4B6"
                 }
             },
-
             State {
                 name: "normal"
-                when: !sideBarIconButtonMouseArea.containsMouse
+                when: !sideBarIconButtonMouseArea.containsMouse && !sideBarIconButton.isSelected
                 PropertyChanges {
                     target: backgroundRect
                     color: "white"
+                }
+            },
+            State {
+                name: "isSelected"
+                when: sideBarIconButton.isSelected
+                PropertyChanges {
+                    target: backgroundRect
+                    color: "#EED3B1"
                 }
             }
         ]
@@ -89,7 +99,7 @@ Rectangle {
         states: [
             State {
                 name: "hovered"
-                when: sideBarIconButtonMouseArea.containsMouse
+                when: sideBarIconButtonMouseArea.containsMouse && !sideBarIconButton.isSelected
                 PropertyChanges {
                     target: sideBarIconButtonColorOverlay
                     color: "#FFFFFF"
@@ -97,10 +107,18 @@ Rectangle {
             },
             State {
                 name: "normal"
-                when: !sideBarIconButtonMouseArea.containsMouse
+                when: !sideBarIconButtonMouseArea.containsMouse && !sideBarIconButton.isSelected
                 PropertyChanges {
                     target: sideBarIconButtonColorOverlay
                     color: "#000000"
+                }
+            },
+            State {
+                name: "isSelected"
+                when: sideBarIconButton.isSelected
+                PropertyChanges {
+                    target: sideBarIconButtonColorOverlay
+                    color: "#FFFFFF"
                 }
             }
         ]

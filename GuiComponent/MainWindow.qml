@@ -21,7 +21,6 @@ ApplicationWindow {
     color: "white"
 
     Component.onCompleted: function() {
-        console.log("MainWindow.qml loaded")
         x = (screen.width - width) / 2;
         y = (screen.height - height) / 2;
     }
@@ -73,6 +72,9 @@ ApplicationWindow {
                 top: parent.top
                 left: parent.left
             }
+            onFeatureSelected: {
+                featureLoader.source = source
+            }
         }
     }
 
@@ -102,8 +104,9 @@ ApplicationWindow {
                 color: "#3E5879"
                 radius: 4
                 Loader {
+                    id: featureLoader
                     anchors.fill: parent
-                    source: "AspectRatioFeature.qml"
+                    source: ""
                 }
             }
         }
