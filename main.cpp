@@ -1,5 +1,6 @@
 #include "ModuleController.h"
 #include "FeatureController.h"
+#include "ActionController.h"
 #include <QGuiApplication>
 
 #include "WrapperGifLib/IGifConverter.h"
@@ -8,11 +9,15 @@ int main(int argc, char *argv[])
 {
     QGuiApplication a(argc, argv);
 
-    ModuleController controller;
+    ModuleController moduleController;
     FeatureController featureController;
-    QObject::connect(&controller, &ModuleController::moduleInitialized, &featureController,
+    ActionController actionController;
+    QObject::connect(&moduleController, &ModuleController::moduleInitialized, &featureController,
                      &FeatureController::onModuleInitialized);
-    controller.init();
+    QObject::connect(&moduleController, &ModuleController::moduleInitialized, &actionController,
+                     &ActionController::onModuleInitialized);
+
+    moduleController.init();
 
     return a.exec();
 }

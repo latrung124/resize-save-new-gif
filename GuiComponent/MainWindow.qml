@@ -127,6 +127,7 @@ ApplicationWindow {
 
         ImageContent {
             id: imageContent
+            objectName: "imageContent"
             anchors {
                 top: parent.top
                 bottom: parent.bottom

@@ -15,6 +15,7 @@ Item {
     implicitHeight: 350
 
     property string imageSource: ""
+    property var bottomBarModel: null
 
     Rectangle {
         anchors.fill: parent
@@ -105,12 +106,19 @@ Item {
                 spacing: 2
 
                 Repeater {
-                    model: featureModel
+                    model: bottomBarModel
                     delegate: FeatureButton {
                         opacity: 1
                         iconSource: model.icon
                         iconWidth: 34
                         iconHeight: 34
+                        onClicked: function() {
+                            if (!model.action) {
+                                return;
+                            }
+
+                            model.action.execute();
+                        }
                     }
                 }
             }
@@ -125,22 +133,9 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 onClicked: function() {
-                    console.log("Apply button clicked")
+                    console.log("Apply button clicked");
                 }
             }
-        }
-    }
-
-    ListModel {
-        id: featureModel
-        ListElement {
-            icon: "Resources/file-explorer.png"
-        }
-        ListElement {
-            icon: "Resources/refresh.png"
-        }
-        ListElement {
-            icon: "Resources/delete.png"
         }
     }
 }

@@ -18,11 +18,30 @@ set(CONTROLLER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ModuleController.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/FeatureController.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/FeatureController.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ActionController.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ActionController.cpp
 )
 
 set(MODEL_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/BottomBarModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/BottomBarModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/SideBarModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/SideBarModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/AbstractAction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/FileExplorerAction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/FileExplorerAction.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/RefreshAction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/RefreshAction.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/DeleteAction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/DeleteAction.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/AbstractActionModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/AbstractActionModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/FileExplorerActionModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/FileExplorerActionModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/RefreshActionModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/RefreshActionModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/DeleteActionModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/DeleteActionModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailAspectRatioFeatureModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailAspectRatioFeatureModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailCropFeatureModel.h
@@ -57,6 +76,7 @@ add_executable(convert-image-application
 target_include_directories(convert-image-application PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller
     ${CMAKE_CURRENT_SOURCE_DIR}/Model
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform
 )
