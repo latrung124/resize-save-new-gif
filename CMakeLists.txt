@@ -16,10 +16,35 @@ qt_standard_project_setup(REQUIRES 6.5)
 set(CONTROLLER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ModuleController.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ModuleController.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/FeatureController.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/FeatureController.cpp
+)
+
+set(MODEL_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/SideBarModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/SideBarModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/AbstractFeatureModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/AbstractFeatureModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/AspectRatioFeatureModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/AspectRatioFeatureModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/CropFeatureModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/CropFeatureModel.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/AbstractTransformModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/AbstractTransformModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/FlipTransformModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/FlipTransformModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/FlipTransformListModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/FlipTransformListModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformListModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformListModel.cpp
 )
 
 add_executable(convert-image-application
     ${CONTROLLER_SOURCES}
+    ${MODEL_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility.h
     main.cpp
 )
@@ -27,6 +52,9 @@ add_executable(convert-image-application
 #add include path for giflib and libutil
 target_include_directories(convert-image-application PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform
 )
 
 target_link_directories(convert-image-application PRIVATE
