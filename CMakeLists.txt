@@ -23,6 +23,10 @@ set(CONTROLLER_SOURCES
 set(MODEL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/SideBarModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/SideBarModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailAspectRatioFeatureModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailAspectRatioFeatureModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailCropFeatureModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailCropFeatureModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/AbstractFeatureModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/AbstractFeatureModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/AspectRatioFeatureModel.h

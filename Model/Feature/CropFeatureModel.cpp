@@ -6,6 +6,7 @@
 */
 
 #include "CropFeatureModel.h"
+#include "DetailCropFeatureModel.h"
 
 CropFeatureModel::CropFeatureModel(QObject *parent)
     : AbstractFeatureModel(parent)
@@ -15,6 +16,7 @@ CropFeatureModel::CropFeatureModel(QObject *parent)
 CropFeatureModel::CropFeatureModel(FeatureType featureType, QObject *parent)
     : AbstractFeatureModel(featureType, parent)
 {
+    m_detailCropFeatureModel = std::make_shared<DetailCropFeatureModel>(parent);
 }
 
 CropFeatureModel::~CropFeatureModel()
@@ -29,5 +31,10 @@ QString CropFeatureModel::source() const
 QString CropFeatureModel::icon() const
 {
     return "Resources/crop-sidebar-icon.png";
+}
+
+QObject *CropFeatureModel::detailFeatureModel() const
+{
+    return m_detailCropFeatureModel.get();
 }
 

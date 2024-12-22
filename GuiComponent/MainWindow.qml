@@ -21,6 +21,8 @@ ApplicationWindow {
     title: qsTr("Convert Image Tool")
     color: "white"
 
+    property var featureModel: null
+
     Component.onCompleted: function() {
         x = (screen.width - width) / 2;
         y = (screen.height - height) / 2;
@@ -76,8 +78,15 @@ ApplicationWindow {
                 top: parent.top
                 left: parent.left
             }
-            onFeatureSelected: function(source) {
-                featureLoader.source = source
+            onFeatureSelected: function(model) {
+                featureLoader.source = model.source;
+                if (model.detailFeatureModel) {
+                    console.log("rotationTransformListModel not null: source: ")
+                    featureLoader.item.updateTransformListModel(model.detailFeatureModel);
+                } else {
+                    console.log("rotationTransformListModel is null, source: ")
+                }
+                root.featureModel = model.detailFeatureModel;
             }
         }
     }
@@ -108,6 +117,11 @@ ApplicationWindow {
                 id: featureLoader
                 anchors.fill: parent
                 source: ""
+                onStatusChanged: function() {
+                    if (featureLoader.status === Loader.Ready) {
+                        console.log("onStatusChanged: Ready");
+                    }
+                }
             }
         }
 

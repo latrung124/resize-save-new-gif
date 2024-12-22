@@ -23,7 +23,8 @@ public:
 
     enum Role {
         IconRole = Qt::UserRole + 1,
-        SourceRole
+        SourceRole,
+        DetailFeatureModelRole
     };
 
     explicit SideBarModel(QObject *parent = nullptr);

@@ -13,7 +13,7 @@ Rectangle {
     property int selectedIndex: -1
     property var sideBarModel: null // SideBarModel
 
-    signal featureSelected(string source)
+    signal featureSelected(QtObject featureModel)
 
     ColumnLayout {
         anchors.fill: parent
@@ -27,7 +27,7 @@ Rectangle {
                 iconSource: model.icon
                 onClicked: function() {
                     root.selectedIndex = index;
-                    featureSelected(model.source);
+                    featureSelected(model);
                 }
             }
         }

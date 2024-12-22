@@ -16,6 +16,17 @@ Item {
     width: 350
     height: 350
 
+    property var aspectRatioFeatureModel: null
+    property var rotateFeatureModel: null
+    property var flipFeatureModel: null
+    signal updateTransformListModel(QtObject aspectRatioFeatureModel)
+
+    onUpdateTransformListModel: function(aspectRatioFeatureModel) {
+        console.log("updateTransformListModel")
+        rotateFeatureModel = aspectRatioFeatureModel.rotationTransformListModel
+        flipFeatureModel = aspectRatioFeatureModel.flipTransformListModel
+    }
+
     Rectangle {
         id: backgroundRect
         anchors.fill: parent
@@ -181,26 +192,6 @@ Item {
                     }
                 }
             }
-        }
-    }
-
-    ListModel {
-        id: rotateFeatureModel
-        ListElement {
-            icon: `Resources/rotate-90-degrees.svg`
-        }
-        ListElement {
-            icon: `Resources/rotate-90-degrees-cw.svg`
-        }
-    }
-
-    ListModel {
-        id: flipFeatureModel
-        ListElement {
-            icon: `Resources/flip-horizontal-left.png`
-        }
-        ListElement {
-            icon: `Resources/flip-horizontal-right.png`
         }
     }
 

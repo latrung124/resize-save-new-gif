@@ -45,6 +45,6 @@ QHash<int, QByteArray> RotationTransformListModel::roleNames() const
 {
     return {
         {NameRole, "name"},
-        {IconSourceRole, "iconSource"}
+        {IconSourceRole, "icon"}
     };
 }

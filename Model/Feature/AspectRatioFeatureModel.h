@@ -9,22 +9,18 @@
 #define ASPECTRATIOFEATUREMODEL_H
 
 #include "AbstractFeatureModel.h"
+
 #include <memory>
 
 enum FeatureType : uint16_t;
 
-class RotationTransformListModel;
-class FlipTransformListModel;
-
+class DetailAspectRatioFeatureModel;
 class AspectRatioFeatureModel : public AbstractFeatureModel
 {
     Q_OBJECT
-    Q_PROPERTY(QObject *rotationTransformListModel READ rotationTransformListModel CONSTANT)
-    Q_PROPERTY(QObject *flipTransformListModel READ flipTransformListModel CONSTANT)
 
 public:
-    using RotationTransformListModelPtr = std::shared_ptr<RotationTransformListModel>;
-    using FlipTransformListModelPtr = std::shared_ptr<FlipTransformListModel>;
+    using DetailAspectRatioFeatureModelPtr = std::shared_ptr<DetailAspectRatioFeatureModel>;
 
     explicit AspectRatioFeatureModel(QObject *parent = nullptr);
     AspectRatioFeatureModel(FeatureType featureType, QObject *parent = nullptr);
@@ -32,13 +28,10 @@ public:
 
     QString source() const override;
     QString icon() const override;
-
-    QObject *rotationTransformListModel() const;
-    QObject *flipTransformListModel() const;
+    QObject *detailFeatureModel() const override;
 
 private:
-    RotationTransformListModelPtr m_rotationTransformListModel;
-    FlipTransformListModelPtr m_flipTransformListModel;
+    DetailAspectRatioFeatureModelPtr m_detailAspectRatioFeatureModel;
 };
 
 #endif // ASPECTRATIOFEATUREMODEL_H

@@ -45,7 +45,7 @@ QHash<int, QByteArray> FlipTransformListModel::roleNames() const
 {
     return {
         {NameRole, "name"},
-        {IconSourceRole, "iconSource"}
+        {IconSourceRole, "icon"}
     };
 }
 

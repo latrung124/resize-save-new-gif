@@ -10,11 +10,15 @@
 
 #include <QObject>
 
+class RotationTransformListModel;
+class FlipTransformListModel;
+
 class AbstractFeatureModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString source READ source CONSTANT)
     Q_PROPERTY(QString icon READ icon CONSTANT)
+    Q_PROPERTY(QObject *detailFeatureModel READ detailFeatureModel CONSTANT)
 
 public:
     enum class FeatureType : uint16_t
@@ -33,6 +37,7 @@ public:
 
     virtual QString source() const = 0;
     virtual QString icon() const = 0;
+    virtual QObject *detailFeatureModel() const = 0;
 
 private:
     FeatureType m_featureType = FeatureType::None;
