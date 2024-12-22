@@ -19,9 +19,8 @@ class FlipTransformListModel;
 class AspectRatioFeatureModel : public AbstractFeatureModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
-    Q_PROPERTY(QObject *rotationTransformListModel READ rotationTransformListModel NOTIFY rotationTransformListModelChanged)
-    Q_PROPERTY(QObject *flipTransformListModel READ flipTransformListModel NOTIFY flipTransformListModelChanged)
+    Q_PROPERTY(QObject *rotationTransformListModel READ rotationTransformListModel CONSTANT)
+    Q_PROPERTY(QObject *flipTransformListModel READ flipTransformListModel CONSTANT)
 
 public:
     using RotationTransformListModelPtr = std::shared_ptr<RotationTransformListModel>;
@@ -31,19 +30,13 @@ public:
     AspectRatioFeatureModel(FeatureType featureType, QObject *parent = nullptr);
     ~AspectRatioFeatureModel() override;
 
-    QString source() const;
-    void setSource(const QString &source);
+    QString source() const override;
+    QString icon() const override;
 
     QObject *rotationTransformListModel() const;
     QObject *flipTransformListModel() const;
 
-signals:
-    void sourceChanged();
-    void rotationTransformListModelChanged();
-    void flipTransformListModelChanged();
-
 private:
-    QString m_source;
     RotationTransformListModelPtr m_rotationTransformListModel;
     FlipTransformListModelPtr m_flipTransformListModel;
 };

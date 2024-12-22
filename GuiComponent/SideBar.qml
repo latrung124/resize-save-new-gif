@@ -11,6 +11,7 @@ Rectangle {
     radius: 4
 
     property int selectedIndex: -1
+    property var sideBarModel: null // SideBarModel
 
     signal featureSelected(string source)
 
@@ -29,18 +30,6 @@ Rectangle {
                     featureSelected(model.source);
                 }
             }
-        }
-    }
-
-    ListModel {
-        id: sideBarModel
-        ListElement {
-            icon: `Resources/aspect-ratio.png`
-            source: `AspectRatioFeature.qml`
-        }
-        ListElement {
-            icon: `Resources/crop-sidebar-icon.png`
-            source: `CropFeature.qml`
         }
     }
 }

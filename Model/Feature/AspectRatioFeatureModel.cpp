@@ -17,6 +17,8 @@ AspectRatioFeatureModel::AspectRatioFeatureModel(QObject *parent)
 AspectRatioFeatureModel::AspectRatioFeatureModel(FeatureType featureType, QObject *parent)
     : AbstractFeatureModel(featureType, parent)
 {
+    m_rotationTransformListModel = std::make_shared<RotationTransformListModel>(parent);
+    m_flipTransformListModel = std::make_shared<FlipTransformListModel>(parent);
 }   
 
 AspectRatioFeatureModel::~AspectRatioFeatureModel()
@@ -25,13 +27,12 @@ AspectRatioFeatureModel::~AspectRatioFeatureModel()
 
 QString AspectRatioFeatureModel::source() const
 {
-    return m_source;
+    return "AspectRatioFeature.qml";
 }
 
-void AspectRatioFeatureModel::setSource(const QString &source)
+QString AspectRatioFeatureModel::icon() const
 {
-    m_source = source;
-    emit sourceChanged();
+    return "Resources/aspect-ratio.png";
 }
 
 QObject *AspectRatioFeatureModel::rotationTransformListModel() const

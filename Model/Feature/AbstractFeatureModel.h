@@ -13,6 +13,8 @@
 class AbstractFeatureModel : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString source READ source CONSTANT)
+    Q_PROPERTY(QString icon READ icon CONSTANT)
 
 public:
     enum class FeatureType : uint16_t
@@ -28,6 +30,9 @@ public:
     virtual ~AbstractFeatureModel();
 
     FeatureType featureType() const;
+
+    virtual QString source() const = 0;
+    virtual QString icon() const = 0;
 
 private:
     FeatureType m_featureType = FeatureType::None;

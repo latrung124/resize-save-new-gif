@@ -20,6 +20,9 @@ public:
     explicit CropFeatureModel(QObject *parent = nullptr);
     CropFeatureModel(FeatureType featureType, QObject *parent = nullptr);
     ~CropFeatureModel() override;
+
+    QString source() const override;
+    QString icon() const override;
 };
 
 #endif // CROPFEATUREMODEL_H

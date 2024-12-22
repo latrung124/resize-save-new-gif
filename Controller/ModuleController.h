@@ -9,6 +9,7 @@
 
 #include <QObject>
 #include <QQmlApplicationEngine>
+#include <memory>
 
 class ModuleController : public QObject
 {
@@ -18,11 +19,15 @@ public:
     ~ModuleController();
 
     void init();
+    void onObjectCreated(QObject* object, const QUrl& url);
+
+signals:
+    void moduleInitialized(std::weak_ptr<QQmlApplicationEngine> engine);
 
 private:
     void loadQmlModule();
 
-    QQmlApplicationEngine* m_engine;
+    std::shared_ptr<QQmlApplicationEngine> m_engine;
 };
 
 #endif // MODULECONTROLLER_H

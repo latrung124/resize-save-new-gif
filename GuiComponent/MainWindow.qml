@@ -13,6 +13,7 @@ import QtQuick.Layouts
 ApplicationWindow {
     id: root
 
+    objectName: "mainWindow"
     visible: true
     width: 1366
     height: 780
@@ -70,6 +71,7 @@ ApplicationWindow {
 
         SideBar {
             id: sideBar
+            objectName: "sideBar"
             anchors {
                 top: parent.top
                 left: parent.left

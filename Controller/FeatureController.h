@@ -12,6 +12,8 @@
 #include <vector>
 #include <memory>
 
+class QQmlApplicationEngine;
+
 class SideBarModel;
 
 class FeatureController : public QObject
@@ -20,12 +22,19 @@ class FeatureController : public QObject
 
 public:
     using SideBarModelUPtr = std::unique_ptr<SideBarModel>;
+    using EngineWPtr = std::weak_ptr<QQmlApplicationEngine>;
 
     explicit FeatureController(QObject *parent = nullptr);
     ~FeatureController();
 
+public slots:
+    void onModuleInitialized(EngineWPtr engine);
+
 private:
+    void initSideBarModel();
+
     SideBarModelUPtr m_sideBarModel;
+    EngineWPtr m_engine;
 };
 
 #endif // FEATURECONTROLLER_H

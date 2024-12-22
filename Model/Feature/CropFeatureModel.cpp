@@ -20,3 +20,14 @@ CropFeatureModel::CropFeatureModel(FeatureType featureType, QObject *parent)
 CropFeatureModel::~CropFeatureModel()
 {
 }
+
+QString CropFeatureModel::source() const
+{
+    return "CropFeature.qml";
+}
+
+QString CropFeatureModel::icon() const
+{
+    return "Resources/crop-sidebar-icon.png";
+}
+
