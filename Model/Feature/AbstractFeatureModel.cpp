@@ -22,7 +22,7 @@ AbstractFeatureModel::~AbstractFeatureModel()
 {
 }
 
-AbstractFeatureModel::FeatureType AbstractFeatureModel::featureType() const
+FeatureType AbstractFeatureModel::featureType() const
 {
     return m_featureType;
 }

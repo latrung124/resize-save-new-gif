@@ -14,8 +14,8 @@
 SideBarModel::SideBarModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_featureModels.push_back(std::make_shared<AspectRatioFeatureModel>(AbstractFeatureModel::FeatureType::AspectRatio, this));
-    m_featureModels.push_back(std::make_shared<CropFeatureModel>(AbstractFeatureModel::FeatureType::Crop, this));
+    m_featureModels.push_back(std::make_shared<AspectRatioFeatureModel>(FeatureType::AspectRatio, this));
+    m_featureModels.push_back(std::make_shared<CropFeatureModel>(FeatureType::Crop, this));
 }
 
 SideBarModel::~SideBarModel()
@@ -39,9 +39,9 @@ QVariant SideBarModel::data(const QModelIndex &index, int role) const
     case SourceRole:
         return m_featureModels[index.row()]->source();
     case DetailFeatureModelRole: {
-        if (m_featureModels[index.row()]->featureType() == AbstractFeatureModel::FeatureType::AspectRatio) {
+        if (m_featureModels[index.row()]->featureType() == FeatureType::AspectRatio) {
             return QVariant::fromValue(dynamic_cast<DetailAspectRatioFeatureModel*>(m_featureModels[index.row()]->detailFeatureModel()));
-        } else if (m_featureModels[index.row()]->featureType() == AbstractFeatureModel::FeatureType::Crop) {
+        } else if (m_featureModels[index.row()]->featureType() == FeatureType::Crop) {
             return QVariant::fromValue(dynamic_cast<DetailCropFeatureModel*>(m_featureModels[index.row()]->detailFeatureModel()));
         } else {
             return QVariant();

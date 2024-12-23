@@ -19,6 +19,8 @@ public:
     FlipTransformModel(const QString &iconSource, const QString &name, QObject *parent = nullptr);
     ~FlipTransformModel() override;
 
+    TransformType transformType() const override;
+
 public slots:
     void applyTransform(const QImage &image) override;
 };

@@ -10,6 +10,7 @@
 RefreshAction::RefreshAction(QObject *parent)
     : AbstractAction(parent)
 {
+    m_actionType = ActionType::Refresh;
 }
 
 RefreshAction::~RefreshAction()

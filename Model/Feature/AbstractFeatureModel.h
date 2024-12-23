@@ -8,6 +8,8 @@
 #ifndef ABSTRACTFEATUREMODEL_H
 #define ABSTRACTFEATUREMODEL_H
 
+#include "FeatureTypeClass.h"
+
 #include <QObject>
 
 class RotationTransformListModel;
@@ -21,14 +23,6 @@ class AbstractFeatureModel : public QObject
     Q_PROPERTY(QObject *detailFeatureModel READ detailFeatureModel CONSTANT)
 
 public:
-    enum class FeatureType : uint16_t
-    {
-        None = 0,
-        AspectRatio = 1,
-        Crop = 2
-    };
-    Q_ENUM(FeatureType)
-
     explicit AbstractFeatureModel(QObject *parent = nullptr);
     AbstractFeatureModel(FeatureType featureType, QObject *parent = nullptr);
     virtual ~AbstractFeatureModel();

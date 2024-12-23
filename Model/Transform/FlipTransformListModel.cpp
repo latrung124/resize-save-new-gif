@@ -36,6 +36,8 @@ QVariant FlipTransformListModel::data(const QModelIndex &index, int role) const
         return QVariant::fromValue(flipTransformModel->name());
     case IconSourceRole:
         return QVariant::fromValue(flipTransformModel->iconSource());
+    case TransformTypeRole:
+        return QVariant::fromValue(flipTransformModel->transformType());
     }
 
     return QVariant();
@@ -45,7 +47,8 @@ QHash<int, QByteArray> FlipTransformListModel::roleNames() const
 {
     return {
         {NameRole, "name"},
-        {IconSourceRole, "icon"}
+        {IconSourceRole, "icon"},
+        {TransformTypeRole, "transformType"}
     };
 }
 

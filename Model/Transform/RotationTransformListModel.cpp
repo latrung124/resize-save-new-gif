@@ -36,6 +36,8 @@ QVariant RotationTransformListModel::data(const QModelIndex &index, int role) co
         return QVariant::fromValue(rotationTransformModel->name());
     case IconSourceRole:
         return QVariant::fromValue(rotationTransformModel->iconSource());
+    case TransformTypeRole:
+        return QVariant::fromValue(rotationTransformModel->transformType());
     }
 
     return QVariant();
@@ -45,6 +47,7 @@ QHash<int, QByteArray> RotationTransformListModel::roleNames() const
 {
     return {
         {NameRole, "name"},
-        {IconSourceRole, "icon"}
+        {IconSourceRole, "icon"},
+        {TransformTypeRole, "transformType"}
     };
 }

@@ -11,6 +11,8 @@
 #include <QObject>
 #include <QString>
 
+#include "TransformTypeClass.h"
+
 class AbstractTransformModel : public QObject
 {
     Q_OBJECT
@@ -27,6 +29,8 @@ public:
 
     QString iconSource() const;
     void setIconSource(const QString &iconSource);
+
+    virtual TransformType transformType() const = 0;
 
 signals:
     void nameChanged();

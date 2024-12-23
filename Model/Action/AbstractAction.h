@@ -8,6 +8,8 @@
 #ifndef ABSTRACTACTION_H
 #define ABSTRACTACTION_H
 
+#include "ActionTypeClass.h"
+
 #include <QObject>
 #include <memory>
 
@@ -15,15 +17,6 @@ class AbstractAction : public QObject
 {
     Q_OBJECT
 public:
-    enum ActionType
-    {
-        None,
-        FileExplorer,
-        Delete,
-        Refresh
-    };
-    Q_ENUM(ActionType)
-
     explicit AbstractAction(QObject *parent = nullptr) : QObject(parent) {}
     virtual ~AbstractAction() override = default;
 
@@ -32,7 +25,7 @@ public:
     Q_INVOKABLE ActionType actionType() const { return m_actionType; }
 
 protected:
-    ActionType m_actionType = None;
+    ActionType m_actionType = ActionType::None;
 };
 
 #endif // ABSTRACTACTION_H

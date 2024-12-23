@@ -12,8 +12,6 @@
 
 #include <memory>
 
-enum FeatureType : uint16_t;
-
 class DetailAspectRatioFeatureModel;
 class AspectRatioFeatureModel : public AbstractFeatureModel
 {

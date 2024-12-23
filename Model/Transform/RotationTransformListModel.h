@@ -21,7 +21,8 @@ public:
     enum RotationTransformRole
     {
         NameRole = Qt::UserRole + 1,
-        IconSourceRole
+        IconSourceRole,
+        TransformTypeRole
     };
 
     using RotationTransformModelPtr = std::shared_ptr<RotationTransformModel>;

@@ -65,7 +65,14 @@ set(MODEL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformListModel.cpp
 )
 
+set(UTILITY_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Utility/ActionTypeClass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Utility/FeatureTypeClass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Utility/TransformTypeClass.h
+)
+
 add_executable(convert-image-application
+    ${UTILITY_SOURCES}
     ${CONTROLLER_SOURCES}
     ${MODEL_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility.h
@@ -79,6 +86,7 @@ target_include_directories(convert-image-application PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform
+    ${CMAKE_CURRENT_SOURCE_DIR}/Utility
 )
 
 target_link_directories(convert-image-application PRIVATE

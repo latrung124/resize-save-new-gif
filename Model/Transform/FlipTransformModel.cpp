@@ -25,3 +25,8 @@ void FlipTransformModel::applyTransform(const QImage &image)
 {
     Q_UNUSED(image);
 }
+
+TransformType FlipTransformModel::transformType() const
+{
+    return TransformType::Flip;
+}

@@ -7,6 +7,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
+import App.Enums 1.0
 
 Item {
     id: root
@@ -21,6 +23,15 @@ Item {
         anchors.fill: parent
         color: "#F5EFE7"
         radius: 4
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: "Please choose an image"
+        onAccepted: {
+            console.log("Accepted: " + fileDialog.currentFile);
+            root.imageSource = fileDialog.currentFile;
+        }
     }
 
     ColumnLayout {
@@ -47,7 +58,7 @@ Item {
                 visible: !image.source.toString()
 
                 Image {
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignHCenter
                     source: `Resources/add-image.png`
                     width: 48
                     height: 48
@@ -117,6 +128,16 @@ Item {
                                 return;
                             }
 
+                            if (model.action.actionType() === ActionType.FileExplorer) {
+                                internal.fileDialogOpen();
+                            } else if (model.action.actionType() === ActionType.Delete) {
+                                internal.deleteImage();
+                            } else if (model.action.actionType() === ActionType.Refresh) {
+                                internal.refreshImage();
+                            } else {
+                                console.log("Unknown action");
+                            }
+
                             model.action.execute();
                         }
                     }
@@ -136,6 +157,22 @@ Item {
                     console.log("Apply button clicked");
                 }
             }
+        }
+    }
+
+    QtObject {
+        id: internal
+
+        function fileDialogOpen() {
+            fileDialog.open()
+        }
+
+        function refreshImage() {
+            image.source = root.imageSource;
+        }
+
+        function deleteImage() {
+            root.imageSource = "";
         }
     }
 }

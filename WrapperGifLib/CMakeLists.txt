@@ -1,12 +1,12 @@
 find_library(GIFLIB
     NAMES libgif gif
-    PATHS ${CMAKE_SOURCE_DIR}/giflib-5.2.2
+    PATHS ${CMAKE_CURRENT_SOURCE_DIR}/giflib-5.2.2/lib
     NO_DEFAULT_PATH
 )
 
 find_library(GIFUTIL
     NAMES libutil util
-    PATHS ${CMAKE_SOURCE_DIR}/giflib-5.2.2
+    PATHS ${CMAKE_CURRENT_SOURCE_DIR}/giflib-5.2.2/lib
     NO_DEFAULT_PATH
 )
 

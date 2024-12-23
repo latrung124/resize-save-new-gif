@@ -10,6 +10,7 @@
 DeleteAction::DeleteAction(QObject *parent)
     : AbstractAction(parent)
 {
+    m_actionType = ActionType::Delete;
 }
 
 DeleteAction::~DeleteAction()

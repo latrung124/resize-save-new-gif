@@ -24,7 +24,8 @@ public:
     enum FlipTransformRole
     {
         NameRole = Qt::UserRole + 1,
-        IconSourceRole
+        IconSourceRole,
+        TransformTypeRole
     };
 
     explicit FlipTransformListModel(QObject *parent = nullptr);

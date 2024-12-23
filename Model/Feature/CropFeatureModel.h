@@ -13,8 +13,6 @@
 
 class DetailCropFeatureModel;
 
-enum FeatureType : uint16_t;
-
 class CropFeatureModel : public AbstractFeatureModel
 {
     Q_OBJECT

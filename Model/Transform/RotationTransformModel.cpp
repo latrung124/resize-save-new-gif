@@ -25,3 +25,8 @@ void RotationTransformModel::applyTransform(const QImage &image)
 {
     Q_UNUSED(image);
 }
+
+TransformType RotationTransformModel::transformType() const
+{
+    return TransformType::Rotation;
+}

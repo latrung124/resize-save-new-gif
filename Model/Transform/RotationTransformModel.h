@@ -19,6 +19,8 @@ public:
     RotationTransformModel(const QString &iconSource, const QString &name, QObject *parent = nullptr);
     ~RotationTransformModel() override;
 
+    TransformType transformType() const override;
+
 public slots:
     void applyTransform(const QImage &image) override;
 

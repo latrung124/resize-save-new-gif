@@ -148,6 +148,18 @@ Item {
                         top: rotateText.bottom
                         topMargin: internal.featureRowTopMargin
                     }
+
+                    onTransformTrigger: function(name) {
+                        if (name === "Rotate Right") {
+                            internal.rotateRight();
+                        } else if (name === "Rotate Left") {
+                            internal.rotateLeft();
+                        } else if (name === "Flip Horizontal Left") {
+                            internal.flipHorizontalLeft();
+                        } else if (name === "Flip Horizontal Right") {
+                            internal.flipHorizontalRight();
+                        }
+                    }
                 }
             }
 
@@ -208,5 +220,21 @@ Item {
         property int featureRowTopMargin: 5
         property int featureRowLeftMargin: 20
         property int borderLineHeight: 1
+
+        function rotateRight() {
+            console.log("Rotate right");
+        }
+
+        function rotateLeft() {
+            console.log("Rotate left");
+        }
+
+        function flipHorizontalLeft() {
+            console.log("Flip horizontal left");
+        }
+
+        function flipHorizontalRight() {
+            console.log("Flip horizontal right");
+        }
     }
 }
