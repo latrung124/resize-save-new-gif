@@ -28,7 +28,9 @@ Item {
     FileDialog {
         id: fileDialog
         title: "Please choose an image"
-        onAccepted: {
+        currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+        nameFilters: ["All files (*.png *.jpg *.jpeg *.gif *.bmp)", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp"]
+        onAccepted: function() {
             console.log("Accepted: " + fileDialog.currentFile);
             root.imageSource = fileDialog.currentFile;
         }
@@ -72,18 +74,10 @@ Item {
                 }
             }
 
-            Image {
+            CustomAnimatedImage {
                 id: image
                 anchors.fill: parent
                 source: root.imageSource
-                fillMode: Image.PreserveAspectFit
-                asynchronous: true
-                cache: false
-
-                BusyIndicator {
-                    anchors.centerIn: parent
-                    running: image.status === Image.Loading
-                }
             }
 
             DropArea {
