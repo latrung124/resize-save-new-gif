@@ -14,6 +14,7 @@
 #include <QString>
 #include <QFileInfo>
 #include <memory>
+#include <future>
 
 ExportController::ExportController(QObject *parent)
     : QObject(parent)
@@ -38,13 +39,23 @@ void ExportController::exportGif(QString fileName) {
                          fileInfo.completeBaseName() + "-converted." +
                          fileInfo.suffix();
 
-    m_gifConverter->readGifFile(fileName.toStdString().c_str());
+    exportGifAsync(fileName, destFileName, [this](bool isSuccess) {
+        emit exportGifFinished(isSuccess);
+    });
+}
 
-    // Convert back to char* if needed
-    QByteArray destFileNameBytes = destFileName.toLocal8Bit();
-    const char* destFileNameChar = destFileNameBytes.constData();
+void ExportController::exportGifAsync(QString fileName, QString destFileName, std::function<void(bool)> resCallback) {
+    std::thread([this, fileName, destFileName, resCallback]() {
+        bool isResult = false;
+        isResult = m_gifConverter->readGifFile(fileName.toStdString().c_str());
+        // Convert back to char* if needed
+        QByteArray destFileNameBytes = destFileName.toLocal8Bit();
+        const char* destFileNameChar = destFileNameBytes.constData();
+        isResult = m_gifConverter->createGifFileFromQImage(fileName.toStdString().c_str(), destFileNameChar);
 
-    m_gifConverter->createGifFileFromQImage(fileName.toStdString().c_str(), destFileNameChar);
+        if (resCallback)
+            resCallback(isResult);
+    }).detach();
 }
 
 void ExportController::printGifInfo(QString fileName) {

@@ -28,6 +28,7 @@ signals:
 
 private:
     void loadQmlModule();
+    void onExportGifFinished(bool isSuccess);
 
     std::shared_ptr<QQmlApplicationEngine> m_engine;
     std::shared_ptr<ExportController> m_exportController;

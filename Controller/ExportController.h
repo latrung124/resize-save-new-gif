@@ -12,6 +12,9 @@
 #include <QString>
 #include <QRegularExpression>
 
+#include <thread>
+#include <functional>
+
 class IGifDebugger;
 class IGifConverter;
 
@@ -26,10 +29,16 @@ public:
     Q_INVOKABLE void exportGif(QString fileName);
     Q_INVOKABLE void printGifInfo(QString fileName);
 
+signals:
+    void exportGifFinished(bool isSuccess);
+
 private:
+    void exportGifAsync(QString fileName, QString destFileName, std::function<void(bool)> resCallback);
+
     std::unique_ptr<IGifDebugger> m_gifDebugger;
     std::unique_ptr<IGifConverter> m_gifConverter;
     QRegularExpression m_filePrefixExp;
+    std::thread m_exportThread;
 };
 
 #endif // EXPORTCONTROLLER_H

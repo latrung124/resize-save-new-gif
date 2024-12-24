@@ -228,13 +228,13 @@ bool GifConverterImpl::readGifFile(const char *fileName) {
     return m_gifReader.readGifFile(fileName);
 }
 
-void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const char *destFileName) {
+bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const char *destFileName) {
     QImageReader reader(QString::fromLocal8Bit(srcFileName));
 
     GifFileType *GifFile = NULL;
     if ((GifFile = EGifOpenFileName(destFileName, true, NULL)) == NULL) {
         qDebug() << "Failed to create GIF file";
-        return;
+        return false;
     }
 
     EGifSetGifVersion(GifFile, true);
@@ -242,7 +242,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
     ColorMapObject *ColorMap = GifMakeMapObject(256, NULL);
     if (ColorMap == NULL) {
         qDebug() << "Failed to create color map";
-        return;
+        return false;
     }
 
     auto globalColorTable = m_gifReader.getGlobalColorTable();
@@ -256,7 +256,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
     if (EGifPutScreenDesc(GifFile, 240, 240, 8, 0, ColorMap) == GIF_ERROR) {
         qDebug() << "Failed to write screen descriptor";
-        return;
+        return false;
     }
 
     GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage) * reader.imageCount());
@@ -265,7 +265,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
         QImage image = reader.read();
         if (image.isNull()) {
             qDebug() << "Failed to read image";
-            return;
+            return false;
         }
         image = image.convertToFormat(QImage::Format_Indexed8);
         image = image.scaled(QSize(240, 240), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -274,7 +274,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             ExtensionBlock *loopExtBlock = (ExtensionBlock *)malloc(sizeof(ExtensionBlock) * 2);
             if (!loopExtBlock) {
                 qDebug() << "Memory allocation failed for loopExtBlock";
-                return;
+                return false;
             }
 
             loopExtBlock[0].ByteCount = 11;
@@ -283,7 +283,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             if (!loopExtBlock[0].Bytes) {
                 free(loopExtBlock);
                 qDebug() << "Memory allocation failed for loopExtBlock[0].Bytes";
-                return;
+                return false;
             }
             memcpy(loopExtBlock[0].Bytes, "NETSCAPE2.0", 11);
 
@@ -294,7 +294,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
                 free(loopExtBlock[0].Bytes);
                 free(loopExtBlock);
                 qDebug() << "Memory allocation failed for loopExtBlock[1].Bytes";
-                return;
+                return false;
             }
             loopExtBlock[1].Bytes[0] = 0x01;
             loopExtBlock[1].Bytes[1] = 0x00;
@@ -311,7 +311,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
             if (!success) {
                 qDebug() << "Failed to write Netscape Extension blocks";
-                return;
+                return false;
             }
 
             GraphicsControlBlock gcb;
@@ -322,7 +322,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             GifByteType *GifExtension = (GifByteType*)malloc(4);
             if (!GifExtension) {
                 qDebug() << "Memory allocation failed for GifExtension";
-                return;
+                return false;
             }
 
             EGifGCBToExtension(&gcb, GifExtension);
@@ -331,7 +331,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
             if (!success) {
                 qDebug() << "Failed to write first frame delay";
-                return;
+                return false;
             }
         } else {
             GraphicsControlBlock gcb;
@@ -342,7 +342,7 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             GifByteType *GifExtension = (GifByteType*)malloc(4);
             if (!GifExtension) {
                 qDebug() << "Memory allocation failed for GifExtension";
-                return;
+                return false;
             }
 
             EGifGCBToExtension(&gcb, GifExtension);
@@ -351,13 +351,13 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
             if (!success) {
                 qDebug() << "EGifPutExtension failed!";
-                return;
+                return false;
             }
         }
 
         if (convertImageByFrame(image, GifFile) == false) {
             qDebug() << "Failed to convert image";
-            return;
+            return false;
         }
 
         reader.jumpToNextImage();
@@ -365,6 +365,8 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
     if (EGifCloseFile(GifFile, NULL) == GIF_ERROR) {
         qDebug() << "Failed to close GIF file";
-        return;
+        return false;
     }
+
+    return true;
 }

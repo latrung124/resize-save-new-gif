@@ -26,7 +26,7 @@ public:
     ~GifConverterImpl() = default;
 
     bool readGifFile(const char* fileName) override;
-    void createGifFileFromQImage(const char* srcFileName, const char* destFileName) override;
+    bool createGifFileFromQImage(const char* srcFileName, const char* destFileName) override;
 
 private:
     bool AddGraphicsControlExtension(GifFileType *gifFile, int imageIndex, int delayTimeCentiseconds);
