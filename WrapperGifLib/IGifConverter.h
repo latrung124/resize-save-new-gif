@@ -13,6 +13,7 @@ public:
     IGifConverter() = default;
     ~IGifConverter() = default;
 
+    virtual bool readGifFile(const char* fileName) = 0;
     virtual void createGifFileFromQImage(const char* srcFileName, const char* destFileName) = 0;
 };
 

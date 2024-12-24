@@ -20,7 +20,7 @@
 #include "gif_lib.h"
 
 extern "C" {
-    #include "getarg.h"
+#include "getarg.h"
 }
 
 #include <set>
@@ -28,7 +28,6 @@ extern "C" {
 #include <sstream>
 
 bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *GifFile) {
-    // Check if the image is valid
     if (qImage.isNull()) {
         return false;
     }
@@ -37,17 +36,14 @@ bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *Gi
     int Height = qImage.height();
     int ColorMapSize = 256;
 
-    // Allocate r, g, b buffers
     GifByteType *RedBuffer = (GifByteType *)malloc(Width * Height);
     GifByteType *GreenBuffer = (GifByteType *)malloc(Width * Height);
     GifByteType *BlueBuffer = (GifByteType *)malloc(Width * Height);
 
-    // Initialize the buffers
     memset(RedBuffer, 0, Width * Height);
     memset(GreenBuffer, 0, Width * Height);
     memset(BlueBuffer, 0, Width * Height);
 
-    // Loop over each pixel in the QImage and copy it to the Gif's RasterBits
     for (int y = 0; y < Height; ++y) {
         for (int x = 0; x < Width; ++x) {
             QColor pixelColor = qImage.pixelColor(x, y);
@@ -58,7 +54,6 @@ bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *Gi
         }
     }
 
-    // Create a color map object
     ColorMapObject *OutputColorMap = NULL;
     GifByteType *OutputBuffer = NULL;
 
@@ -70,14 +65,14 @@ bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *Gi
     }
 
     if (GifQuantizeBuffer(Width, Height, &ColorMapSize, RedBuffer,
-	                      GreenBuffer, BlueBuffer, OutputBuffer,
-	                      OutputColorMap->Colors) == GIF_ERROR) {
+                          GreenBuffer, BlueBuffer, OutputBuffer,
+                          OutputColorMap->Colors) == GIF_ERROR) {
         qDebug() << "Failed to quantize image";
-		return false;
-	}
+        return false;
+    }
     free((char *)RedBuffer);
-	free((char *)GreenBuffer);
-	free((char *)BlueBuffer);
+    free((char *)GreenBuffer);
+    free((char *)BlueBuffer);
 
     if (EGifPutImageDesc(GifFile, 0, 0, Width, Height, false, OutputColorMap) == GIF_ERROR) {
         qDebug() << "Failed to write image descriptor";
@@ -103,7 +98,6 @@ void GifConverterImpl::PrintExtensionBlockHexToDebug(const ExtensionBlock *extBl
         return;
     }
 
-    // Use a stringstream to accumulate the output
     std::stringstream ss;
 
     ss << "Extension Function: 0x" << std::hex << std::uppercase << extBlock->Function << std::endl;
@@ -115,11 +109,9 @@ void GifConverterImpl::PrintExtensionBlockHexToDebug(const ExtensionBlock *extBl
     }
     ss << std::endl;
 
-    // Convert the stringstream to a string and output via qDebug
     qDebug() << QString::fromStdString(ss.str());
 }
 
-// Function to clone a GIF file, including the looping extension
 void GifConverterImpl::printInfoOfGif(const char* fileName) {
     qDebug() << Q_FUNC_INFO;
     int error;
@@ -135,7 +127,6 @@ void GifConverterImpl::printInfoOfGif(const char* fileName) {
     }
 
     qDebug() << "GIF file information:\n";
-    // qDebug <<"Version: %s\n", gif->SVersion);
     qDebug() <<"Screen size: %dx%d\n"<< gif->SWidth << gif->SHeight;
     qDebug() <<"Color resolution: %d\n" << gif->SColorResolution;
     qDebug() <<"Background color index: %d\n" << gif->SBackGroundColor;
@@ -143,7 +134,6 @@ void GifConverterImpl::printInfoOfGif(const char* fileName) {
     qDebug() <<"Image count: %d\n" << gif->ImageCount;
 
     if (gif->SColorMap != NULL) {
-        //print the color map
         qDebug() <<"Color map: %s\n" << (gif->SColorMap ? "yes" : "no");
         qDebug() <<"Color map size: %d\n" << gif->SColorMap->ColorCount;
         qDebug() <<"Color map bits per pixel: %d\n" << gif->SColorMap->BitsPerPixel;
@@ -153,13 +143,12 @@ void GifConverterImpl::printInfoOfGif(const char* fileName) {
             qDebug() <<"    Color i:" << i << " r: " << color.Red << " g: " << color.Green << " b: " << color.Blue;
         }
     }
-    
+
 
     if (gif->ImageCount == 0) {
         qDebug() << "failed!";
         return;
     }
-    // Print information about each image in the GIF file
     for (int i = 0; i < gif->ImageCount; i++) {
         SavedImage *image = &gif->SavedImages[i];
         qDebug() <<"Image %d:\n" << i + 1;
@@ -199,7 +188,7 @@ void GifConverterImpl::printInfoOfGif(const char* fileName) {
             }
         }
     }
-    
+
     qDebug() << "Externsion blocks: " << gif->ExtensionBlockCount;
     if (gif->ExtensionBlocks) {
         for (int i = 0; i < gif->ExtensionBlockCount; i++) {
@@ -211,7 +200,6 @@ void GifConverterImpl::printInfoOfGif(const char* fileName) {
         }
     }
 
-    // Close the GIF file
     if (DGifCloseFile(gif, &error) == GIF_ERROR) {
         qDebug() << "Error closing GIF file: %s\n" << GifErrorString(error);
         exit(1);
@@ -220,22 +208,24 @@ void GifConverterImpl::printInfoOfGif(const char* fileName) {
 }
 
 bool GifConverterImpl::AddGraphicsControlExtension(GifFileType *gifFile, int imageIndex, int delayTimeCentiseconds) {
-    // Function to add a Graphics Control Extension to control delay or transparency
     if (gifFile == nullptr || imageIndex < 0 || imageIndex >= gifFile->ImageCount) return false;
 
     GraphicsControlBlock gcb;
     gcb.DisposalMode = DISPOSAL_UNSPECIFIED;
     gcb.UserInputFlag = false;
-    gcb.DelayTime = delayTimeCentiseconds; // Delay time in 100ths of a second
+    gcb.DelayTime = delayTimeCentiseconds;
     gcb.TransparentColor = NO_TRANSPARENT_COLOR;
 
-    // Add the Graphics Control Extension (GCE) for this frame
     if (EGifGCBToSavedExtension(&gcb, gifFile, imageIndex) == GIF_ERROR) {
         qDebug() << Q_FUNC_INFO << " failed!";
         return false;
     }
 
     return true;
+}
+
+bool GifConverterImpl::readGifFile(const char *fileName) {
+    return m_gifReader.readGifFile(fileName);
 }
 
 void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const char *destFileName) {
@@ -249,7 +239,22 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
     EGifSetGifVersion(GifFile, true);
 
-    if (EGifPutScreenDesc(GifFile, 240, 240, 8, 0, NULL) == GIF_ERROR) {
+    ColorMapObject *ColorMap = GifMakeMapObject(256, NULL);
+    if (ColorMap == NULL) {
+        qDebug() << "Failed to create color map";
+        return;
+    }
+
+    auto globalColorTable = m_gifReader.getGlobalColorTable();
+    for (int i = 0; i < globalColorTable.size(); ++i) {
+        ColorMap->Colors[i].Red = globalColorTable[i].r;
+        ColorMap->Colors[i].Green = globalColorTable[i].g;
+        ColorMap->Colors[i].Blue = globalColorTable[i].b;
+    }
+
+    //TODO: handle color table size = 0
+
+    if (EGifPutScreenDesc(GifFile, 240, 240, 8, 0, ColorMap) == GIF_ERROR) {
         qDebug() << "Failed to write screen descriptor";
         return;
     }
@@ -266,75 +271,87 @@ void GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
         image = image.scaled(QSize(240, 240), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
         if (i == 0) {
-            // Add first extension block for looping
-            ExtensionBlock *loopExtBlock = (ExtensionBlock *)malloc(sizeof(ExtensionBlock) * 3);
+            ExtensionBlock *loopExtBlock = (ExtensionBlock *)malloc(sizeof(ExtensionBlock) * 2);
+            if (!loopExtBlock) {
+                qDebug() << "Memory allocation failed for loopExtBlock";
+                return;
+            }
 
-            // Set NetLoop 2.0 to block 1
             loopExtBlock[0].ByteCount = 11;
             loopExtBlock[0].Bytes = (GifByteType *)malloc(11);
             loopExtBlock[0].Function = APPLICATION_EXT_FUNC_CODE;
-            loopExtBlock[0].Bytes[0] = 0x4E;
-            loopExtBlock[0].Bytes[1] = 0x45;
-            loopExtBlock[0].Bytes[2] = 0x54;
-            loopExtBlock[0].Bytes[3] = 0x53;
-            loopExtBlock[0].Bytes[4] = 0x43;
-            loopExtBlock[0].Bytes[5] = 0x41;
-            loopExtBlock[0].Bytes[6] = 0x50;
-            loopExtBlock[0].Bytes[7] = 0x45;
-            loopExtBlock[0].Bytes[8] = 0x32;
-            loopExtBlock[0].Bytes[9] = 0x2E;
-            loopExtBlock[0].Bytes[10] = 0x30;
+            if (!loopExtBlock[0].Bytes) {
+                free(loopExtBlock);
+                qDebug() << "Memory allocation failed for loopExtBlock[0].Bytes";
+                return;
+            }
+            memcpy(loopExtBlock[0].Bytes, "NETSCAPE2.0", 11);
 
-            // Set the loop count to 0 (infinite)
             loopExtBlock[1].ByteCount = 3;
             loopExtBlock[1].Bytes = (GifByteType *)malloc(3);
             loopExtBlock[1].Function = CONTINUE_EXT_FUNC_CODE;
+            if (!loopExtBlock[1].Bytes) {
+                free(loopExtBlock[0].Bytes);
+                free(loopExtBlock);
+                qDebug() << "Memory allocation failed for loopExtBlock[1].Bytes";
+                return;
+            }
             loopExtBlock[1].Bytes[0] = 0x01;
             loopExtBlock[1].Bytes[1] = 0x00;
             loopExtBlock[1].Bytes[2] = 0x00;
 
-            // Set Graphics block
-            loopExtBlock[2].ByteCount = 4;
-            loopExtBlock[2].Bytes = (GifByteType *)malloc(4);
+            bool success = (EGifPutExtensionLeader(GifFile, APPLICATION_EXT_FUNC_CODE) != GIF_ERROR &&
+                          EGifPutExtensionBlock(GifFile, 11, loopExtBlock[0].Bytes) != GIF_ERROR &&
+                          EGifPutExtensionBlock(GifFile, 3, loopExtBlock[1].Bytes) != GIF_ERROR &&
+                          EGifPutExtensionTrailer(GifFile) != GIF_ERROR);
+
+            free(loopExtBlock[0].Bytes);
+            free(loopExtBlock[1].Bytes);
+            free(loopExtBlock);
+
+            if (!success) {
+                qDebug() << "Failed to write Netscape Extension blocks";
+                return;
+            }
 
             GraphicsControlBlock gcb;
             gcb.DisposalMode = 1;
             gcb.DelayTime = reader.nextImageDelay()/10;
-            gcb.TransparentColor = 0;
             gcb.TransparentColor = -1;
-            EGifGCBToExtension(&gcb, (GifByteType*)loopExtBlock[2].Bytes);
-            loopExtBlock[2].Function = GRAPHICS_EXT_FUNC_CODE;
-
-            if (EGifPutExtensionLeader(GifFile, APPLICATION_EXT_FUNC_CODE) == GIF_ERROR) {
-                qDebug() << "EGifPutExtensionLeader failed!";
+            
+            GifByteType *GifExtension = (GifByteType*)malloc(4);
+            if (!GifExtension) {
+                qDebug() << "Memory allocation failed for GifExtension";
+                return;
             }
 
-            if (EGifPutExtensionBlock(GifFile, 11, (GifByteType*)loopExtBlock[0].Bytes) == GIF_ERROR) {
-                qDebug() << "EGifPutExtensionBlock failed!";
-            }
+            EGifGCBToExtension(&gcb, GifExtension);
+            success = (EGifPutExtension(GifFile, GRAPHICS_EXT_FUNC_CODE, 4, GifExtension) != GIF_ERROR);
+            free(GifExtension);
 
-            if (EGifPutExtensionBlock(GifFile, 3, (GifByteType*)loopExtBlock[1].Bytes) == GIF_ERROR) {
-                qDebug() << "EGifPutExtensionBlock failed!";
+            if (!success) {
+                qDebug() << "Failed to write first frame delay";
+                return;
             }
-
-            if (EGifPutExtensionBlock(GifFile, 4, (GifByteType*)loopExtBlock[2].Bytes) == GIF_ERROR) {
-                qDebug() << "EGifPutExtensionBlock failed!";
-            }
-
-            if (EGifPutExtensionTrailer(GifFile) == GIF_ERROR) {
-                qDebug() << "EGifPutExtensionTrailer failed!";
-            }
-
         } else {
             GraphicsControlBlock gcb;
             gcb.DisposalMode = 1;
             gcb.DelayTime = reader.nextImageDelay()/10;
-            gcb.TransparentColor = 0;
             gcb.TransparentColor = -1;
+
             GifByteType *GifExtension = (GifByteType*)malloc(4);
+            if (!GifExtension) {
+                qDebug() << "Memory allocation failed for GifExtension";
+                return;
+            }
+
             EGifGCBToExtension(&gcb, GifExtension);
-            if (EGifPutExtension(GifFile, GRAPHICS_EXT_FUNC_CODE, 4, (void*)GifExtension) == GIF_ERROR) {
+            bool success = (EGifPutExtension(GifFile, GRAPHICS_EXT_FUNC_CODE, 4, GifExtension) != GIF_ERROR);
+            free(GifExtension);
+
+            if (!success) {
                 qDebug() << "EGifPutExtension failed!";
+                return;
             }
         }
 

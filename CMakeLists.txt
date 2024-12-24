@@ -20,6 +20,8 @@ set(CONTROLLER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/FeatureController.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ActionController.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ActionController.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ExportController.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ExportController.cpp
 )
 
 set(MODEL_SOURCES
@@ -87,6 +89,7 @@ target_include_directories(convert-image-application PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility
+    ${CMAKE_CURRENT_SOURCE_DIR}/WrapperGifLib
 )
 
 target_link_directories(convert-image-application PRIVATE

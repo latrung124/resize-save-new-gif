@@ -11,6 +11,8 @@
 #include <QQmlApplicationEngine>
 #include <memory>
 
+class ExportController;
+
 class ModuleController : public QObject
 {
     Q_OBJECT
@@ -28,6 +30,7 @@ private:
     void loadQmlModule();
 
     std::shared_ptr<QQmlApplicationEngine> m_engine;
+    std::shared_ptr<ExportController> m_exportController;
 };
 
 #endif // MODULECONTROLLER_H

@@ -149,6 +149,7 @@ Item {
                 }
                 onClicked: function() {
                     console.log("Apply button clicked");
+                    exportController.exportGif(root.imageSource);
                 }
             }
         }

@@ -15,7 +15,12 @@ if(NOT GIFLIB)
 endif()
 
 add_library(WrapperGifLib STATIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/GifUtility.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Gif89aReader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Gif89aReader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/IGifDebugger.h
     ${CMAKE_CURRENT_SOURCE_DIR}/IGifConverter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Implementation/IGifDebugger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Implementation/GifConverterImpl.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Implementation/GifConverterImpl.cpp
 )

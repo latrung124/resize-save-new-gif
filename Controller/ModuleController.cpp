@@ -5,14 +5,17 @@
 */
 
 #include "ModuleController.h"
+#include "ExportController.h"
 #include "../Utility.h"
 
+#include <QQmlContext>
 #include <QUrl>
 #include <QDebug>
 
 ModuleController::ModuleController(QObject* parent)
     : QObject(parent)
     , m_engine(std::make_shared<QQmlApplicationEngine>())
+    , m_exportController(std::make_shared<ExportController>())
 {
     connect(m_engine.get(), &QQmlApplicationEngine::objectCreated, this, &ModuleController::onObjectCreated);
 }
@@ -32,6 +35,7 @@ void ModuleController::loadQmlModule()
     if (!m_engine) {
         return;
     }
+    m_engine->rootContext()->setContextProperty("exportController", m_exportController.get());
 
     auto module = Utility::moduleInfo[Utility::ModuleType::GuiComponent];
     m_engine->loadFromModule(module.name, module.path);
