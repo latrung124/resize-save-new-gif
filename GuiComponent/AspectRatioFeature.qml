@@ -19,7 +19,12 @@ Item {
     property var aspectRatioFeatureModel: null
     property var rotateFeatureModel: null
     property var flipFeatureModel: null
+
     signal updateTransformListModel(QtObject aspectRatioFeatureModel)
+    signal rotateRight()
+    signal rotateLeft()
+    signal flipHorizontalRight()
+    signal flipHorizontalLeft()
 
     onUpdateTransformListModel: function(aspectRatioFeatureModel) {
         console.log("updateTransformListModel")
@@ -154,10 +159,8 @@ Item {
                             internal.rotateRight();
                         } else if (name === "Rotate Left") {
                             internal.rotateLeft();
-                        } else if (name === "Flip Horizontal Left") {
-                            internal.flipHorizontalLeft();
-                        } else if (name === "Flip Horizontal Right") {
-                            internal.flipHorizontalRight();
+                        } else {
+                            console.log("Unknown transform name: " + name);
                         }
                     }
                 }
@@ -202,6 +205,16 @@ Item {
                         top: flipText.bottom
                         topMargin: internal.featureRowTopMargin
                     }
+
+                    onTransformTrigger: function(name) {
+                        if (name === "Flip Horizontal Left") {
+                            internal.flipHorizontalLeft();
+                        } else if (name === "Flip Horizontal Right") {
+                            internal.flipHorizontalRight();
+                        } else {
+                            console.log("Unknown transform name: " + name);
+                        }
+                    }
                 }
             }
         }
@@ -222,19 +235,19 @@ Item {
         property int borderLineHeight: 1
 
         function rotateRight() {
-            console.log("Rotate right");
+            root.rotateRight();
         }
 
         function rotateLeft() {
-            console.log("Rotate left");
+            root.rotateLeft();
         }
 
         function flipHorizontalLeft() {
-            console.log("Flip horizontal left");
+            root.flipHorizontalLeft();
         }
 
         function flipHorizontalRight() {
-            console.log("Flip horizontal right");
+            root.flipHorizontalRight();
         }
     }
 }

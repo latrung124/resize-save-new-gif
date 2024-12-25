@@ -9,6 +9,54 @@ Item {
     id: root
 
     property string source: ""
+    signal rotateRight()
+    signal rotateLeft()
+    signal flipHorizontalRight()
+    signal flipHorizontalLeft()
+
+    onRotateRight: function() {
+        console.log("CustomAnimatedImage: Rotate right signal received");
+        if (gifRect.visible) {
+            animatedImage.rotation = (animatedImage.rotation + 90) % 360;
+        }
+
+        if (image.visible) {
+            image.rotation = (image.rotation + 90) % 360;
+        }
+    }
+
+    onRotateLeft: function() {
+        console.log("CustomAnimatedImage: Rotate left signal received");
+        if (gifRect.visible) {
+            animatedImage.rotation = (animatedImage.rotation - 90) % 360;
+        }
+
+        if (image.visible) {
+            image.rotation = (image.rotation - 90) % 360;
+        }
+    }
+
+    onFlipHorizontalRight: function() {
+        console.log("CustomAnimatedImage: Flip horizontal right signal received");
+        if (gifRect.visible) {
+            animatedImageScale.xScale = 1;
+        }
+
+        if (image.visible) {
+            imageScale.xScale = 1;
+        }
+    }
+
+    onFlipHorizontalLeft: function() {
+        console.log("CustomAnimatedImage: Flip horizontal left signal received");
+        if (gifRect.visible) {
+            animatedImageScale.xScale = -1;
+        }
+
+        if (image.visible) {
+            imageScale.xScale = -1;
+        }
+    }
 
     width: 350
     height: 350
@@ -32,6 +80,11 @@ Item {
         fillMode: Image.PreserveAspectFit
         asynchronous: true
         cache: false
+        transform: Scale {
+            id: imageScale
+            xScale: 1
+            origin.x: image.width / 2
+        }
 
         onStatusChanged: function(status) {
             if (status === Image.Ready) {
@@ -52,12 +105,18 @@ Item {
         width: animatedImage.width
         height: animatedImage.height
         anchors.centerIn: parent
+        color: "transparent"
 
         AnimatedImage {
             id: animatedImage
             source: internal.animatedImageSource
             asynchronous: true
             cache: false
+            transform: Scale {
+                id: animatedImageScale
+                xScale: 1
+                origin.x: animatedImage.width / 2
+            }
 
             BusyIndicator {
                 anchors.centerIn: parent

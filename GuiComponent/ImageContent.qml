@@ -19,6 +19,39 @@ Item {
     property string imageSource: ""
     property var bottomBarModel: null
 
+    signal rotateRight()
+    signal rotateLeft()
+    signal flipHorizontalRight()
+    signal flipHorizontalLeft()
+
+    onRotateRight: function() {
+        if (imageSource === "") {
+            return;
+        }
+        image.rotateRight();
+    }
+
+    onRotateLeft: function() {
+        if (imageSource === "") {
+            return;
+        }
+        image.rotateLeft();
+    }
+
+    onFlipHorizontalRight: function() {
+        if (imageSource === "") {
+            return;
+        }
+        image.flipHorizontalRight();
+    }
+
+    onFlipHorizontalLeft: function() {
+        if (imageSource === "") {
+            return;
+        }
+        image.flipHorizontalLeft();
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "#F5EFE7"
@@ -163,7 +196,9 @@ Item {
         }
 
         function refreshImage() {
-            image.source = root.imageSource;
+            var temp = root.imageSource;
+            root.imageSource = "";
+            root.imageSource = temp;
         }
 
         function deleteImage() {

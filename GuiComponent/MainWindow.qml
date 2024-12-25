@@ -117,10 +117,9 @@ ApplicationWindow {
                 id: featureLoader
                 anchors.fill: parent
                 source: ""
-                onStatusChanged: function() {
-                    if (featureLoader.status === Loader.Ready) {
-                        console.log("onStatusChanged: Ready");
-                    }
+
+                onLoaded: function() {
+                    internal.establishedConnection();
                 }
             }
         }
@@ -135,6 +134,21 @@ ApplicationWindow {
                 right: parent.right
                 leftMargin: 2
                 rightMargin: 2
+            }
+        }
+    }
+
+    QtObject {
+        id: internal
+
+        function establishedConnection() {
+            console.log("onStatusChanged: Ready");
+            var source = featureLoader.source.toString().replace(".qml", "");
+            if (source === "AspectRatioFeature") {
+                featureLoader.item.rotateRight.connect(imageContent.rotateRight);
+                featureLoader.item.rotateLeft.connect(imageContent.rotateLeft);
+                featureLoader.item.flipHorizontalRight.connect(imageContent.flipHorizontalRight);
+                featureLoader.item.flipHorizontalLeft.connect(imageContent.flipHorizontalLeft);
             }
         }
     }
