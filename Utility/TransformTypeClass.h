@@ -18,8 +18,10 @@ public:
     enum class ETransformType : uint16_t
     {
         None = 0,
-        Rotation,
-        Flip
+        RotateLeft = 1,
+        RotateRight = 2,
+        FlipHorizontalRight = 3,
+        FlipHorizontalLeft = 4
     };
     Q_ENUM(ETransformType)
 

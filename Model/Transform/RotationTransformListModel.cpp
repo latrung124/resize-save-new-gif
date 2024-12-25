@@ -7,12 +7,13 @@
 
 #include "RotationTransformListModel.h"
 #include "RotationTransformModel.h"
+#include <QDebug>
 
 RotationTransformListModel::RotationTransformListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_rotationTransformModels.push_back(std::make_shared<RotationTransformModel>("Resources/rotate-90-degrees.png", "Rotate Left"));
-    m_rotationTransformModels.push_back(std::make_shared<RotationTransformModel>("Resources/rotate-90-degrees-cw.png", "Rotate Right"));
+    m_rotationTransformModels.push_back(std::make_shared<RotationTransformModel>(TransformType::RotateLeft, "Resources/rotate-90-degrees.png", "Rotate Left"));
+    m_rotationTransformModels.push_back(std::make_shared<RotationTransformModel>(TransformType::RotateRight,  "Resources/rotate-90-degrees-cw.png", "Rotate Right"));
 }
 
 RotationTransformListModel::~RotationTransformListModel()
@@ -50,4 +51,14 @@ QHash<int, QByteArray> RotationTransformListModel::roleNames() const
         {IconSourceRole, "icon"},
         {TransformTypeRole, "transformType"}
     };
+}
+
+void RotationTransformListModel::onRotationTransformSelected(int index, int angle)
+{
+    if (index < 0 && index >= m_rotationTransformModels.size()) {
+        return;
+    }
+
+    const RotationTransformModelPtr &rotationTransformModel = m_rotationTransformModels[index];
+    emit rotationTransformModel->rotate(angle);
 }

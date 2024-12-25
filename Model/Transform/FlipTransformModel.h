@@ -16,13 +16,18 @@ class FlipTransformModel : public AbstractTransformModel
 
 public:
     explicit FlipTransformModel(QObject *parent = nullptr);
-    FlipTransformModel(const QString &iconSource, const QString &name, QObject *parent = nullptr);
+    FlipTransformModel(const TransformType &transformType
+        , const QString &iconSource
+        , const QString &name
+        , QObject *parent = nullptr);
     ~FlipTransformModel() override;
 
-    TransformType transformType() const override;
+signals:
+    void flip(int flipType);
 
-public slots:
-    void applyTransform(const QImage &image) override;
+private:
+    void startConnection();
+    void endConnection();
 };
 
 #endif // FLIPTRANSFORMMODEL_H

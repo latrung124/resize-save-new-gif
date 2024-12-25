@@ -35,6 +35,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+public slots:
+    void onFlipTransformSelected(int index, int flipType);
+
 private:
     std::vector<FlipTransformModelPtr> m_flipTransformModels;
 };

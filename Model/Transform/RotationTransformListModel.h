@@ -33,6 +33,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+public slots:
+    void onRotationTransformSelected(int index, int angle);
+
 private:
     std::vector<RotationTransformModelPtr> m_rotationTransformModels;
 };

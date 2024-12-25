@@ -7,6 +7,7 @@
 #include "ActionTypeClass.h"
 #include "FeatureTypeClass.h"
 #include "TransformTypeClass.h"
+#include "ImageTypeClass.h"
 
 static void registerTypes()
 {
@@ -30,6 +31,13 @@ static void registerTypes()
         1, 0,                          // Major and minor versions
         "TransformType",               // Enum group name in QML
         "Cannot create TransformType in QML. Access enums only.");
+
+    qRegisterMetaType<ImageType>("ImageType");
+    qmlRegisterUncreatableType<ImageTypeClass>(
+        "App.Enums",                    // QML namespace
+        1, 0,                          // Major and minor versions
+        "ImageType",                   // Enum group name in QML
+        "Cannot create ImageType in QML. Access enums only.");
 }
 
 int main(int argc, char *argv[])

@@ -26,7 +26,7 @@ RowLayout {
             iconSource: model.icon
             onClicked: function() {
                 console.log("Transform feature button clicked! " + model.name + " type: " + model.transformType);
-                transformTrigger(model.name);
+                transformTrigger(model.transformType);
             }
         }
     }

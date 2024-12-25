@@ -9,6 +9,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import App.Enums 1.0
 
 Item {
     id: root
@@ -154,14 +155,18 @@ Item {
                         topMargin: internal.featureRowTopMargin
                     }
 
-                    onTransformTrigger: function(name) {
-                        if (name === "Rotate Right") {
+                    onTransformTrigger: function(transformType) {
+                        var angle = 0;
+                        if (transformType == TransformType.RotateRight) {
                             internal.rotateRight();
-                        } else if (name === "Rotate Left") {
+                            angle = 90;
+                        } else if (transformType == TransformType.RotateLeft) {
                             internal.rotateLeft();
+                            angle = -90;
                         } else {
-                            console.log("Unknown transform name: " + name);
+                            console.log("Unknown transform type: " + transformType);
                         }
+                        rotateFeatureModel.onRotationTransformSelected(rotateFeatureModel.index, angle);
                     }
                 }
             }
@@ -206,14 +211,18 @@ Item {
                         topMargin: internal.featureRowTopMargin
                     }
 
-                    onTransformTrigger: function(name) {
-                        if (name === "Flip Horizontal Left") {
+                    onTransformTrigger: function(transformType) {
+                        var flipType = 0;
+                        if (transformType == TransformType.FlipHorizontalLeft) {
                             internal.flipHorizontalLeft();
-                        } else if (name === "Flip Horizontal Right") {
+                            flipType = -1;
+                        } else if (transformType == TransformType.FlipHorizontalRight) {
                             internal.flipHorizontalRight();
+                            flipType = 1;
                         } else {
-                            console.log("Unknown transform name: " + name);
+                            console.log("Unknown transform type: " + transformType);
                         }
+                        flipFeatureModel.onFlipTransformSelected(flipFeatureModel.index, flipType);
                     }
                 }
             }

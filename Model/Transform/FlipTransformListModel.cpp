@@ -11,8 +11,8 @@
 FlipTransformListModel::FlipTransformListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_flipTransformModels.push_back(std::make_shared<FlipTransformModel>("Resources/flip-horizontal-left.png", "Flip Horizontal Left"));
-    m_flipTransformModels.push_back(std::make_shared<FlipTransformModel>("Resources/flip-horizontal-right.png", "Flip Horizontal Right"));
+    m_flipTransformModels.push_back(std::make_shared<FlipTransformModel>(TransformType::FlipHorizontalLeft, "Resources/flip-horizontal-left.png", "Flip Horizontal Left"));
+    m_flipTransformModels.push_back(std::make_shared<FlipTransformModel>(TransformType::FlipHorizontalRight, "Resources/flip-horizontal-right.png", "Flip Horizontal Right"));
 }
 
 FlipTransformListModel::~FlipTransformListModel()
@@ -50,5 +50,15 @@ QHash<int, QByteArray> FlipTransformListModel::roleNames() const
         {IconSourceRole, "icon"},
         {TransformTypeRole, "transformType"}
     };
+}
+
+void FlipTransformListModel::onFlipTransformSelected(int index, int flipType)
+{
+    if (index < 0 && index >= m_flipTransformModels.size()) {
+        return;
+    }
+
+    const FlipTransformModelPtr &flipTransformModel = m_flipTransformModels[index];
+    emit flipTransformModel->flip(flipType);
 }
 

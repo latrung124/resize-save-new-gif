@@ -12,10 +12,11 @@ AbstractTransformModel::AbstractTransformModel(QObject *parent)
 {
 }
 
-AbstractTransformModel::AbstractTransformModel(const QString &iconSource, const QString &name, QObject *parent)
+AbstractTransformModel::AbstractTransformModel(const TransformType &transformType, const QString &iconSource, const QString &name, QObject *parent)
     : QObject(parent)
     , m_name(name)
     , m_iconSource(iconSource)
+    , m_transformType(transformType)
 {
 }
 
@@ -49,7 +50,7 @@ void AbstractTransformModel::setIconSource(const QString &iconSource)
     emit iconSourceChanged();
 }
 
-void AbstractTransformModel::applyTransform(const QImage &image)
+TransformType AbstractTransformModel::transformType() const
 {
-    Q_UNUSED(image);
+    return m_transformType;
 }

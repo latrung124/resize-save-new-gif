@@ -6,27 +6,33 @@
 */
 
 #include "FlipTransformModel.h"
+#include "ImageController.h"
 
 FlipTransformModel::FlipTransformModel(QObject *parent)
     : AbstractTransformModel(parent)
 {
 }
 
-FlipTransformModel::FlipTransformModel(const QString &iconSource, const QString &name, QObject *parent)
-    : AbstractTransformModel(iconSource, name)
+FlipTransformModel::FlipTransformModel(
+    const TransformType &transformType,
+    const QString &iconSource,
+    const QString &name, QObject *parent)
+    : AbstractTransformModel(transformType, iconSource, name)
 {
+    startConnection();
 }
 
 FlipTransformModel::~FlipTransformModel()
 {
+    endConnection();
 }
 
-void FlipTransformModel::applyTransform(const QImage &image)
+void FlipTransformModel::startConnection()
 {
-    Q_UNUSED(image);
+    connect(this, &FlipTransformModel::flip, ImageController::instance(), &ImageController::slotUpdateIsFlipped);
 }
 
-TransformType FlipTransformModel::transformType() const
+void FlipTransformModel::endConnection()
 {
-    return TransformType::Flip;
+    disconnect(this, &FlipTransformModel::flip, ImageController::instance(), &ImageController::slotUpdateIsFlipped);
 }

@@ -6,27 +6,34 @@
 */
 
 #include "RotationTransformModel.h"
+#include "ImageController.h"
 
 RotationTransformModel::RotationTransformModel(QObject *parent)
     : AbstractTransformModel(parent)
 {
 }
 
-RotationTransformModel::RotationTransformModel(const QString &iconSource, const QString &name, QObject *parent)
-    : AbstractTransformModel(iconSource, name)
+RotationTransformModel::RotationTransformModel(
+    const TransformType &transformType,
+    const QString &iconSource,
+    const QString &name,
+    QObject *parent)
+    : AbstractTransformModel(transformType, iconSource, name)
 {
+    startConnection();
 }
 
 RotationTransformModel::~RotationTransformModel()
 {
+    endConnection();
 }
 
-void RotationTransformModel::applyTransform(const QImage &image)
+void RotationTransformModel::startConnection()
 {
-    Q_UNUSED(image);
+    connect(this, &RotationTransformModel::rotate, ImageController::instance(), &ImageController::slotUpdateRotationAngle);
 }
 
-TransformType RotationTransformModel::transformType() const
+void  RotationTransformModel::endConnection()
 {
-    return TransformType::Rotation;
+    disconnect(this, &RotationTransformModel::rotate, ImageController::instance(), &ImageController::slotUpdateRotationAngle);
 }

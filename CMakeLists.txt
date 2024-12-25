@@ -22,9 +22,13 @@ set(CONTROLLER_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ActionController.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ExportController.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ExportController.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ImageController.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Controller/ImageController.cpp
 )
 
 set(MODEL_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/ImageModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/ImageModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/BottomBarModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/BottomBarModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/SideBarModel.h
@@ -71,6 +75,7 @@ set(UTILITY_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility/ActionTypeClass.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility/FeatureTypeClass.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Utility/TransformTypeClass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Utility/ImageTypeClass.h
 )
 
 add_executable(convert-image-application

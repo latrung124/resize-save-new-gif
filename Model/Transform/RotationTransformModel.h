@@ -16,16 +16,18 @@ class RotationTransformModel : public AbstractTransformModel
 
 public:
     explicit RotationTransformModel(QObject *parent = nullptr);
-    RotationTransformModel(const QString &iconSource, const QString &name, QObject *parent = nullptr);
+    RotationTransformModel(const TransformType &transformType,
+        const QString &iconSource,
+        const QString &name,
+        QObject *parent = nullptr);
     ~RotationTransformModel() override;
 
-    TransformType transformType() const override;
-
-public slots:
-    void applyTransform(const QImage &image) override;
-
 signals:
-    void transformApplied(const QImage &image);
+    void rotate(int angle);
+
+private:
+    void startConnection();
+    void endConnection();
 };
 
 #endif // ROTATIONTRANSFORMMODEL_H
