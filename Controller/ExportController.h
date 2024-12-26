@@ -26,7 +26,7 @@ public:
     ExportController(QObject *parent = nullptr);
     ~ExportController();
 
-    Q_INVOKABLE void exportGif(QString fileName);
+    Q_INVOKABLE void exportGif(QString fileName, QString destFileName);
     Q_INVOKABLE void printGifInfo(QString fileName);
 
 signals:

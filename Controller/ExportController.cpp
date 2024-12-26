@@ -28,16 +28,15 @@ ExportController::~ExportController()
 {
 }
 
-void ExportController::exportGif(QString fileName) {
+void ExportController::exportGif(QString fileName, QString destFileName) {
+    if (destFileName.isEmpty()) {
+        qDebug() << "ExportController::exportGif: destFileName is empty";
+        return;
+    }
+
     qDebug() << "ExportController::exportGif";
     fileName.replace(m_filePrefixExp, "");
-    // Convert to QString for easier manipulation
-    QFileInfo fileInfo(fileName);
-
-    // Create new filename with "-converted" before extension
-    QString destFileName = fileInfo.path() + "/" +
-                         fileInfo.completeBaseName() + "-converted." +
-                         fileInfo.suffix();
+    destFileName.replace(m_filePrefixExp, "");
 
     exportGifAsync(fileName, destFileName, [this](bool isSuccess) {
         emit exportGifFinished(isSuccess);

@@ -31,13 +31,27 @@ Item {
     }
 
     FileDialog {
-        id: fileDialog
+        id: importFileDialog
         title: "Please choose an image"
         currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
         nameFilters: ["All files (*.png *.jpg *.jpeg *.gif *.bmp)", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp"]
         onAccepted: function() {
-            console.log("Accepted: " + fileDialog.currentFile);
-            root.imageSource = fileDialog.currentFile;
+            console.log("Accepted: " + importFileDialog.currentFile);
+            root.imageSource = importFileDialog.currentFile;
+        }
+    }
+
+    FileDialog {
+        id: exportFileDialog
+        title: "Please choose a folder to export"
+        currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+        fileMode: FileDialog.SaveFile
+        onAccepted: function() {
+            console.log("Accepted: " + exportFileDialog.currentFile);
+            if (root.imageSource === "") {
+                return;
+            }
+            exportController.exportGif(root.imageSource, exportFileDialog.currentFile);
         }
     }
 
@@ -129,7 +143,7 @@ Item {
                             }
 
                             if (model.action.actionType() === ActionType.FileExplorer) {
-                                internal.fileDialogOpen();
+                                internal.importFileDialogOpen();
                             } else if (model.action.actionType() === ActionType.Delete) {
                                 internal.deleteImage();
                             } else if (model.action.actionType() === ActionType.Refresh) {
@@ -155,7 +169,7 @@ Item {
                 }
                 onClicked: function() {
                     console.log("Apply button clicked");
-                    exportController.exportGif(root.imageSource);
+                    internal.exportFileDialogOpen();
                 }
             }
         }
@@ -164,8 +178,12 @@ Item {
     QtObject {
         id: internal
 
-        function fileDialogOpen() {
-            fileDialog.open()
+        function importFileDialogOpen() {
+            importFileDialog.open()
+        }
+
+        function exportFileDialogOpen() {
+            exportFileDialog.open();
         }
 
         function refreshImage() {
