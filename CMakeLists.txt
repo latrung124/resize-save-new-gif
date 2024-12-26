@@ -48,6 +48,7 @@ set(MODEL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/RefreshActionModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/DeleteActionModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Action/DeleteActionModel.cpp
+
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailAspectRatioFeatureModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailAspectRatioFeatureModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/DetailCropFeatureModel.h
@@ -59,6 +60,7 @@ set(MODEL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/CropFeatureModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Feature/CropFeatureModel.cpp
 
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/AbstractTransformListModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/AbstractTransformModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/AbstractTransformModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/FlipTransformModel.h
@@ -69,6 +71,10 @@ set(MODEL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/FlipTransformListModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformListModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformListModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformListModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformListModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformModel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformModel.cpp
 )
 
 set(UTILITY_SOURCES

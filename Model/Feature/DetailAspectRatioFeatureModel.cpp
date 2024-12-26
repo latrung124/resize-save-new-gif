@@ -6,12 +6,14 @@
 */
 
 #include "DetailAspectRatioFeatureModel.h"
+#include "ResizeTransformListModel.h"
 #include "RotationTransformListModel.h"
 #include "FlipTransformListModel.h"
 
 DetailAspectRatioFeatureModel::DetailAspectRatioFeatureModel(QObject *parent)
     : QObject(parent)
 {
+    m_resizeTransformListModel = std::make_shared<ResizeTransformListModel>(parent);
     m_rotationTransformListModel = std::make_shared<RotationTransformListModel>(parent);
     m_flipTransformListModel = std::make_shared<FlipTransformListModel>(parent);
 }
@@ -28,4 +30,9 @@ QObject *DetailAspectRatioFeatureModel::rotationTransformListModel() const
 QObject *DetailAspectRatioFeatureModel::flipTransformListModel() const
 {
     return m_flipTransformListModel.get();
+}
+
+QObject *DetailAspectRatioFeatureModel::resizeTransformListModel() const
+{
+    return m_resizeTransformListModel.get();
 }

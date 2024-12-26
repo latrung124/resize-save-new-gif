@@ -10,7 +10,7 @@
 #include <QDebug>
 
 RotationTransformListModel::RotationTransformListModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : AbstractTransformListModel(parent)
 {
     m_rotationTransformModels.push_back(std::make_shared<RotationTransformModel>(TransformType::RotateLeft, "Resources/rotate-90-degrees.png", "Rotate Left"));
     m_rotationTransformModels.push_back(std::make_shared<RotationTransformModel>(TransformType::RotateRight,  "Resources/rotate-90-degrees-cw.png", "Rotate Right"));

@@ -20,6 +20,7 @@ Item {
     property var aspectRatioFeatureModel: null
     property var rotateFeatureModel: null
     property var flipFeatureModel: null
+    property var resizeFeatureModel: null
 
     signal updateTransformListModel(QtObject aspectRatioFeatureModel)
 
@@ -27,6 +28,7 @@ Item {
         console.log("updateTransformListModel")
         rotateFeatureModel = aspectRatioFeatureModel.rotationTransformListModel
         flipFeatureModel = aspectRatioFeatureModel.flipTransformListModel
+        resizeFeatureModel = aspectRatioFeatureModel.resizeTransformListModel
     }
 
     Rectangle {

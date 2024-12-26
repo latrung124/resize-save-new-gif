@@ -77,3 +77,13 @@ void ImageController::slotUpdateIsFlipped(int flipType)
 {
     m_imageModel->setFlipType(flipType);
 }
+
+void ImageController::slotResizeWidth(int width)
+{
+    m_imageModel->setWidth(width);
+}
+
+void ImageController::slotResizeHeight(int height)
+{
+    m_imageModel->setHeight(height);
+}

@@ -13,6 +13,8 @@ ImageModel::ImageModel(QObject *parent)
     , m_imageSource("")
     , m_rotationAngle(0)
     , m_flipType(1)
+    , m_width(0)
+    , m_height(0)
 {
 }
 
@@ -71,4 +73,26 @@ void ImageModel::setFlipType(int flipType)
     }
     m_flipType = flipType;
     emit flipTypeChanged();
+}
+
+int ImageModel::width() const
+{
+    return m_width;
+}
+
+void ImageModel::setWidth(int width)
+{
+    m_width = width;
+    emit widthChanged();
+}
+
+int ImageModel::height() const
+{
+    return m_height;
+}
+
+void ImageModel::setHeight(int height)
+{
+    m_height = height;
+    emit heightChanged();
 }

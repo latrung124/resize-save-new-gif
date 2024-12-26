@@ -33,6 +33,8 @@ public slots:
     void slotUpdateImageSource(const QString &imageSource);
     void slotUpdateRotationAngle(int rotationAngle);
     void slotUpdateIsFlipped(int flipType);
+    void slotResizeWidth(int width);
+    void slotResizeHeight(int height);
 
 private:
     explicit ImageController(QObject *parent = nullptr);

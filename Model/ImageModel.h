@@ -19,6 +19,8 @@ class ImageModel : public QObject
 
     Q_PROPERTY(ImageType imageType READ imageType WRITE setImageType NOTIFY imageTypeChanged)
     Q_PROPERTY(QString imageSource READ imageSource WRITE setImageSource NOTIFY imageSourceChanged)
+    Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(int rotationAngle READ rotationAngle WRITE setRotationAngle NOTIFY rotationAngleChanged)
     Q_PROPERTY(int flipType READ flipType WRITE setFlipType NOTIFY flipTypeChanged)
 
@@ -28,6 +30,12 @@ public:
 
     ImageType imageType() const;
     void setImageType(const ImageType &imageType);
+
+    int width() const;
+    void setWidth(int width);
+
+    int height() const;
+    void setHeight(int height);
 
     QString imageSource() const;
     void setImageSource(const QString &imageSource);
@@ -41,12 +49,16 @@ public:
 signals:
     void imageTypeChanged();
     void imageSourceChanged();
+    void widthChanged();
+    void heightChanged();
     void rotationAngleChanged();
     void flipTypeChanged();
 
 private:
     ImageType m_imageType;
     QString m_imageSource;
+    int m_width;
+    int m_height;
     int m_rotationAngle;
     int m_flipType;
 };

@@ -8,13 +8,14 @@
 #ifndef FLIPTRANSFORMLISTMODEL_H
 #define FLIPTRANSFORMLISTMODEL_H
 
-#include <QAbstractListModel>
+#include "AbstractTransformListModel.h"
+
 #include <memory>
 #include <vector>
 
 class FlipTransformModel;
 
-class FlipTransformListModel : public QAbstractListModel
+class FlipTransformListModel : public AbstractTransformListModel
 {
     Q_OBJECT
 
@@ -36,7 +37,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    void onTransformTrigger(int index);
+    void onTransformTrigger(int index) override;
 
 private:
     std::vector<FlipTransformModelPtr> m_flipTransformModels;

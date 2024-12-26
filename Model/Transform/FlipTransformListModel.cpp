@@ -9,7 +9,7 @@
 #include "FlipTransformModel.h"
 
 FlipTransformListModel::FlipTransformListModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : AbstractTransformListModel(parent)
 {
     m_flipTransformModels.push_back(std::make_shared<FlipTransformModel>(TransformType::FlipHorizontalLeft, "Resources/flip-horizontal-left.png", "Flip Horizontal Left"));
     m_flipTransformModels.push_back(std::make_shared<FlipTransformModel>(TransformType::FlipHorizontalRight, "Resources/flip-horizontal-right.png", "Flip Horizontal Right"));

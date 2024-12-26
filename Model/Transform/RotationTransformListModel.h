@@ -8,13 +8,14 @@
 #ifndef ROTATIONTRANSFORMLISTMODEL_H
 #define ROTATIONTRANSFORMLISTMODEL_H
 
-#include <QAbstractListModel>
+#include "AbstractTransformListModel.h"
+
 #include <memory>
 #include <vector>
 
 class RotationTransformModel;
 
-class RotationTransformListModel : public QAbstractListModel
+class RotationTransformListModel : public AbstractTransformListModel
 {
     Q_OBJECT
 public:
@@ -34,7 +35,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    void onTransformTrigger(int index);
+    void onTransformTrigger(int index) override;
 
 private:
     std::vector<RotationTransformModelPtr> m_rotationTransformModels;
