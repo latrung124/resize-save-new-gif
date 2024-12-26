@@ -150,10 +150,6 @@ Item {
                         top: rotateText.bottom
                         topMargin: internal.featureRowTopMargin
                     }
-
-                    onTransformTrigger: function(transformType) {
-                        rotateFeatureModel.onTransformTrigger(rotateFeatureModel.index);
-                    }
                 }
             }
 

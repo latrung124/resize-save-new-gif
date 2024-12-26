@@ -10,6 +10,8 @@
 #include "IGifDebugger.h"
 #include "Implementation/GifConverterImpl.h"
 
+#include "ImageModel.h"
+
 #include <QDebug>
 #include <QString>
 #include <QFileInfo>
@@ -28,15 +30,21 @@ ExportController::~ExportController()
 {
 }
 
-void ExportController::exportGif(QString fileName, QString destFileName) {
+void ExportController::exportGif(QObject *model, QString destFileName) {
     if (destFileName.isEmpty()) {
         qDebug() << "ExportController::exportGif: destFileName is empty";
         return;
     }
 
     qDebug() << "ExportController::exportGif";
-    fileName.replace(m_filePrefixExp, "");
-    destFileName.replace(m_filePrefixExp, "");
+    const ImageModel *imageModel = qobject_cast<ImageModel *>(model);
+    if (!imageModel) {
+        qDebug() << "ExportController::exportGif: model is not ImageModel";
+        return;
+    }
+
+    const auto fileName = imageModel->imageSource().replace(m_filePrefixExp, "");
+    destFileName = destFileName.replace(m_filePrefixExp, "");
 
     exportGifAsync(fileName, destFileName, [this](bool isSuccess) {
         emit exportGifFinished(isSuccess);

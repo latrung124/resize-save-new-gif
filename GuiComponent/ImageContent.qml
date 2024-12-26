@@ -37,7 +37,9 @@ Item {
         nameFilters: ["All files (*.png *.jpg *.jpeg *.gif *.bmp)", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp"]
         onAccepted: function() {
             console.log("Accepted: " + importFileDialog.currentFile);
-            root.imageSource = importFileDialog.currentFile;
+            if (imageModel) {
+                imageModel.imageSource = importFileDialog.currentFile;
+            }
         }
     }
 
@@ -48,10 +50,10 @@ Item {
         fileMode: FileDialog.SaveFile
         onAccepted: function() {
             console.log("Accepted: " + exportFileDialog.currentFile);
-            if (root.imageSource === "") {
+            if (imageModel && imageModel.imageSource === "") {
                 return;
             }
-            exportController.exportGif(root.imageSource, exportFileDialog.currentFile);
+            exportController.exportGif(imageModel, exportFileDialog.currentFile);
         }
     }
 
@@ -96,7 +98,7 @@ Item {
             CustomAnimatedImage {
                 id: image
                 anchors.fill: parent
-                source: root.imageSource
+                source: imageModel ? imageModel.imageSource : ""
                 model: root.imageModel
             }
 
@@ -105,10 +107,10 @@ Item {
                 anchors.fill: parent
                 onDropped: function(drop) {
                     if (drop.hasUrls) {
-                        root.imageSource = drop.urls[0]
+                        imageModel.imageSource = drop.urls[0]
                         root.imageDropped(drop.urls[0])
                     } else if (drop.hasText) {
-                        root.imageSource = drop.text
+                        imageModel.imageSource = drop.text
                         root.imageDropped(drop.text)
                     }
                 }
@@ -187,13 +189,13 @@ Item {
         }
 
         function refreshImage() {
-            var temp = root.imageSource;
-            root.imageSource = "";
-            root.imageSource = temp;
+            var temp = imageModel.imageSource;
+            imageModel.imageSource = "";
+            imageModel.imageSource = temp;
         }
 
         function deleteImage() {
-            root.imageSource = "";
+            imageModel.imageSource = "";
         }
     }
 }
