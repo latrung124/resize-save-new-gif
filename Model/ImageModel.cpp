@@ -12,7 +12,7 @@ ImageModel::ImageModel(QObject *parent)
     , m_imageType(ImageType::None)
     , m_imageSource("")
     , m_rotationAngle(0)
-    , m_flipType(0)
+    , m_flipType(1)
 {
 }
 
@@ -55,10 +55,7 @@ int ImageModel::rotationAngle() const
 
 void ImageModel::setRotationAngle(int rotationAngle)
 {
-    if (m_rotationAngle == rotationAngle) {
-        return;
-    }
-    m_rotationAngle = rotationAngle;
+    m_rotationAngle = (m_rotationAngle + rotationAngle) % 360;
     emit rotationAngleChanged();
 }
 

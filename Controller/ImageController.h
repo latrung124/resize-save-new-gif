@@ -13,15 +13,22 @@
 
 #include "ImageModel.h"
 
+class QQmlApplicationEngine;
+
 class ImageController : public QObject
 {
     Q_OBJECT
 
 public:
+    using EngineWPtr = std::weak_ptr<QQmlApplicationEngine>;
+
     static ImageController *instance();
     ~ImageController() = default;
 
 public slots:
+    void onModuleInitialized(EngineWPtr engine);
+    void onModuleDestroyed();
+
     void slotUpdateImageType(const ImageType &imageType);
     void slotUpdateImageSource(const QString &imageSource);
     void slotUpdateRotationAngle(int rotationAngle);
@@ -29,6 +36,9 @@ public slots:
 
 private:
     explicit ImageController(QObject *parent = nullptr);
+    bool initImageModel();
+
     std::unique_ptr<ImageModel> m_imageModel;
+    EngineWPtr m_engine;
 };
 #endif // IMAGECONTROLLER_H

@@ -53,12 +53,23 @@ QHash<int, QByteArray> RotationTransformListModel::roleNames() const
     };
 }
 
-void RotationTransformListModel::onRotationTransformSelected(int index, int angle)
+void RotationTransformListModel::onTransformTrigger(int index)
 {
     if (index < 0 && index >= m_rotationTransformModels.size()) {
         return;
     }
 
     const RotationTransformModelPtr &rotationTransformModel = m_rotationTransformModels[index];
-    emit rotationTransformModel->rotate(angle);
+    const TransformType type = rotationTransformModel->transformType();
+
+    switch (type) {
+    case TransformType::RotateLeft:
+        emit rotationTransformModel->rotate(-90);
+        break;
+    case TransformType::RotateRight:
+        emit rotationTransformModel->rotate(90);
+        break;
+    default:
+        break;
+    }
 }

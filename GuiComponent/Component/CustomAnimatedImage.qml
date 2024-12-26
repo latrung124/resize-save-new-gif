@@ -9,54 +9,7 @@ Item {
     id: root
 
     property string source: ""
-    signal rotateRight()
-    signal rotateLeft()
-    signal flipHorizontalRight()
-    signal flipHorizontalLeft()
-
-    onRotateRight: function() {
-        console.log("CustomAnimatedImage: Rotate right signal received");
-        if (gifRect.visible) {
-            animatedImage.rotation = (animatedImage.rotation + 90) % 360;
-        }
-
-        if (image.visible) {
-            image.rotation = (image.rotation + 90) % 360;
-        }
-    }
-
-    onRotateLeft: function() {
-        console.log("CustomAnimatedImage: Rotate left signal received");
-        if (gifRect.visible) {
-            animatedImage.rotation = (animatedImage.rotation - 90) % 360;
-        }
-
-        if (image.visible) {
-            image.rotation = (image.rotation - 90) % 360;
-        }
-    }
-
-    onFlipHorizontalRight: function() {
-        console.log("CustomAnimatedImage: Flip horizontal right signal received");
-        if (gifRect.visible) {
-            animatedImageScale.xScale = 1;
-        }
-
-        if (image.visible) {
-            imageScale.xScale = 1;
-        }
-    }
-
-    onFlipHorizontalLeft: function() {
-        console.log("CustomAnimatedImage: Flip horizontal left signal received");
-        if (gifRect.visible) {
-            animatedImageScale.xScale = -1;
-        }
-
-        if (image.visible) {
-            imageScale.xScale = -1;
-        }
-    }
+    property QtObject model: null
 
     width: 350
     height: 350
@@ -80,6 +33,7 @@ Item {
         fillMode: Image.PreserveAspectFit
         asynchronous: true
         cache: false
+        rotation: model ? model.rotationAngle : 0
         transform: Scale {
             id: imageScale
             xScale: 1
@@ -112,9 +66,10 @@ Item {
             source: internal.animatedImageSource
             asynchronous: true
             cache: false
+            rotation: model ? model.rotationAngle : 0
             transform: Scale {
                 id: animatedImageScale
-                xScale: 1
+                xScale: model ? model.flipType : 1
                 origin.x: animatedImage.width / 2
             }
 
@@ -152,6 +107,7 @@ Item {
         property string animatedImageSource: ""
 
         function handleImageExtension(sourceFile) {
+            console.log("handleImageExtension: sourceFile: ", sourceFile);
             var extension = sourceFile.split(".").pop();
             if (extension === "png" || extension === "jpg" || extension === "jpeg" || extension === "bmp") {
                 internal.imageSource = sourceFile;

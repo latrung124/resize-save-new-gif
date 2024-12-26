@@ -1,6 +1,7 @@
 #include "ModuleController.h"
 #include "FeatureController.h"
 #include "ActionController.h"
+#include "ImageController.h"
 #include <QGuiApplication>
 
 #include "WrapperGifLib/IGifConverter.h"
@@ -53,6 +54,15 @@ int main(int argc, char *argv[])
                      &FeatureController::onModuleInitialized);
     QObject::connect(&moduleController, &ModuleController::moduleInitialized, &actionController,
                      &ActionController::onModuleInitialized);
+    QObject::connect(&moduleController, &ModuleController::moduleInitialized, ImageController::instance(),
+                     &ImageController::onModuleInitialized);
+
+    QObject::connect(&moduleController, &ModuleController::moduleDestroyed, &featureController,
+                     &FeatureController::onModuleDestroyed);
+    QObject::connect(&moduleController, &ModuleController::moduleDestroyed, &actionController,
+                     &ActionController::onModuleDestroyed);
+    QObject::connect(&moduleController, &ModuleController::moduleDestroyed, ImageController::instance(),
+                     &ImageController::onModuleDestroyed);
 
     moduleController.init();
 

@@ -34,7 +34,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-    void onRotationTransformSelected(int index, int angle);
+    void onTransformTrigger(int index);
 
 private:
     std::vector<RotationTransformModelPtr> m_rotationTransformModels;

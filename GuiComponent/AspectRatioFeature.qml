@@ -22,10 +22,6 @@ Item {
     property var flipFeatureModel: null
 
     signal updateTransformListModel(QtObject aspectRatioFeatureModel)
-    signal rotateRight()
-    signal rotateLeft()
-    signal flipHorizontalRight()
-    signal flipHorizontalLeft()
 
     onUpdateTransformListModel: function(aspectRatioFeatureModel) {
         console.log("updateTransformListModel")
@@ -156,17 +152,7 @@ Item {
                     }
 
                     onTransformTrigger: function(transformType) {
-                        var angle = 0;
-                        if (transformType == TransformType.RotateRight) {
-                            internal.rotateRight();
-                            angle = 90;
-                        } else if (transformType == TransformType.RotateLeft) {
-                            internal.rotateLeft();
-                            angle = -90;
-                        } else {
-                            console.log("Unknown transform type: " + transformType);
-                        }
-                        rotateFeatureModel.onRotationTransformSelected(rotateFeatureModel.index, angle);
+                        rotateFeatureModel.onTransformTrigger(rotateFeatureModel.index);
                     }
                 }
             }
@@ -210,20 +196,6 @@ Item {
                         top: flipText.bottom
                         topMargin: internal.featureRowTopMargin
                     }
-
-                    onTransformTrigger: function(transformType) {
-                        var flipType = 0;
-                        if (transformType == TransformType.FlipHorizontalLeft) {
-                            internal.flipHorizontalLeft();
-                            flipType = -1;
-                        } else if (transformType == TransformType.FlipHorizontalRight) {
-                            internal.flipHorizontalRight();
-                            flipType = 1;
-                        } else {
-                            console.log("Unknown transform type: " + transformType);
-                        }
-                        flipFeatureModel.onFlipTransformSelected(flipFeatureModel.index, flipType);
-                    }
                 }
             }
         }
@@ -242,21 +214,5 @@ Item {
         property int featureRowTopMargin: 5
         property int featureRowLeftMargin: 20
         property int borderLineHeight: 1
-
-        function rotateRight() {
-            root.rotateRight();
-        }
-
-        function rotateLeft() {
-            root.rotateLeft();
-        }
-
-        function flipHorizontalLeft() {
-            root.flipHorizontalLeft();
-        }
-
-        function flipHorizontalRight() {
-            root.flipHorizontalRight();
-        }
     }
 }

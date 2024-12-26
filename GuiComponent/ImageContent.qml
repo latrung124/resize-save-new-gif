@@ -17,39 +17,11 @@ Item {
     implicitHeight: 350
 
     property string imageSource: ""
+    property QtObject imageModel: null
     property var bottomBarModel: null
 
-    signal rotateRight()
-    signal rotateLeft()
-    signal flipHorizontalRight()
-    signal flipHorizontalLeft()
-
-    onRotateRight: function() {
-        if (imageSource === "") {
-            return;
-        }
-        image.rotateRight();
-    }
-
-    onRotateLeft: function() {
-        if (imageSource === "") {
-            return;
-        }
-        image.rotateLeft();
-    }
-
-    onFlipHorizontalRight: function() {
-        if (imageSource === "") {
-            return;
-        }
-        image.flipHorizontalRight();
-    }
-
-    onFlipHorizontalLeft: function() {
-        if (imageSource === "") {
-            return;
-        }
-        image.flipHorizontalLeft();
+    onImageModelChanged: function() {
+        image.model = imageModel;
     }
 
     Rectangle {
@@ -111,6 +83,7 @@ Item {
                 id: image
                 anchors.fill: parent
                 source: root.imageSource
+                model: root.imageModel
             }
 
             DropArea {

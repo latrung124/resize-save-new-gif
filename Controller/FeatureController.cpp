@@ -26,6 +26,11 @@ void FeatureController::onModuleInitialized(EngineWPtr engine)
     initSideBarModel();
 }
 
+void FeatureController::onModuleDestroyed()
+{
+    m_sideBarModel->deleteLater();
+}
+
 void FeatureController::initSideBarModel()
 {
     auto engine = m_engine.lock();

@@ -14,7 +14,11 @@ RowLayout {
 
     property alias model: repeater.model
 
-    signal transformTrigger(string name)
+    signal featureTrigger(int index)
+
+    onFeatureTrigger: function(index) {
+        model.onTransformTrigger(index);
+    }
 
     implicitHeight: 50
     implicitWidth: 110
@@ -25,8 +29,7 @@ RowLayout {
         delegate: FeatureButton {
             iconSource: model.icon
             onClicked: function() {
-                console.log("Transform feature button clicked! " + model.name + " type: " + model.transformType);
-                transformTrigger(model.transformType);
+                root.featureTrigger(index);
             }
         }
     }

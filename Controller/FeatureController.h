@@ -29,6 +29,7 @@ public:
 
 public slots:
     void onModuleInitialized(EngineWPtr engine);
+    void onModuleDestroyed();
 
 private:
     void initSideBarModel();

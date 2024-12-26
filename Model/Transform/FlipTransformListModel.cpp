@@ -52,13 +52,24 @@ QHash<int, QByteArray> FlipTransformListModel::roleNames() const
     };
 }
 
-void FlipTransformListModel::onFlipTransformSelected(int index, int flipType)
+void FlipTransformListModel::onTransformTrigger(int index)
 {
     if (index < 0 && index >= m_flipTransformModels.size()) {
         return;
     }
 
     const FlipTransformModelPtr &flipTransformModel = m_flipTransformModels[index];
-    emit flipTransformModel->flip(flipType);
+    const TransformType type = flipTransformModel->transformType();
+
+    switch (type) {
+    case TransformType::FlipHorizontalLeft:
+        emit flipTransformModel->flip(-1);
+        break;
+    case TransformType::FlipHorizontalRight:
+        emit flipTransformModel->flip(1);
+        break;
+    default:
+        break;
+    }
 }
 

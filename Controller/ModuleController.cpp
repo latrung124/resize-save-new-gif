@@ -18,6 +18,7 @@ ModuleController::ModuleController(QObject* parent)
     , m_exportController(std::make_shared<ExportController>())
 {
     connect(m_engine.get(), &QQmlApplicationEngine::objectCreated, this, &ModuleController::onObjectCreated);
+    connect(m_engine.get(), &QQmlApplicationEngine::quit, this, &ModuleController::onObjectDestroyed);
     connect(m_exportController.get(), &ExportController::exportGifFinished, this, &ModuleController::onExportGifFinished);
 }
 
@@ -49,6 +50,11 @@ void ModuleController::onObjectCreated(QObject* object, const QUrl& url)
     }
 
     emit moduleInitialized(m_engine);
+}
+
+void ModuleController::onObjectDestroyed()
+{
+    emit moduleDestroyed();
 }
 
 void ModuleController::onExportGifFinished(bool isSuccess)

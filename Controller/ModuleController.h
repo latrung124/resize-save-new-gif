@@ -22,9 +22,11 @@ public:
 
     void init();
     void onObjectCreated(QObject* object, const QUrl& url);
+    void onObjectDestroyed();
 
 signals:
     void moduleInitialized(std::weak_ptr<QQmlApplicationEngine> engine);
+    void moduleDestroyed();
 
 private:
     void loadQmlModule();

@@ -26,6 +26,11 @@ void ActionController::onModuleInitialized(EngineWPtr engine)
     initBottomBarModel();
 }
 
+void ActionController::onModuleDestroyed()
+{
+    m_bottomBarModel->deleteLater();
+}
+
 void ActionController::initBottomBarModel()
 {
     auto engine = m_engine.lock();
