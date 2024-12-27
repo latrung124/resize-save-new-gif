@@ -121,6 +121,7 @@ Item {
                         iconSource: resizeTransformModel.iconSource
                         onClicked: function() {
                             console.log("resizeTransformModel: ", resizeTransformModel.width, resizeTransformModel.height);
+                            resizeTransformModel.transformResizeTrigger(resizeTransformModel.width, resizeTransformModel.height);
                         }
                     }
                 }

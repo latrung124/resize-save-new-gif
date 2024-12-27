@@ -53,10 +53,10 @@ signals:
     void heightChanged();
     void rotationAngleChanged();
     void flipTypeChanged();
-    void updateImageLoaded();
+    void updateImageSize(int width, int height);
 
 public slots:
-    void onUpdateImageLoaded();
+    void onUpdateImageSize(int width, int height);
 
 private:
     ImageType m_imageType;

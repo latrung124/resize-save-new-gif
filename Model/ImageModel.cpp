@@ -97,7 +97,9 @@ void ImageModel::setHeight(int height)
     emit heightChanged();
 }
 
-void ImageModel::onUpdateImageLoaded()
+void ImageModel::onUpdateImageSize(int width, int height)
 {
-    emit updateImageLoaded();
+    setWidth(width);
+    setHeight(height);
+    emit updateImageSize(width, height);
 }

@@ -32,7 +32,7 @@ public slots:
     void onModuleInitialized(EngineWPtr engine);
     void onModuleDestroyed();
 
-    void slotUpdateImageLoaded();
+    void slotUpdateImageSize(int width, int height);
     void slotUpdateImageType(const ImageType &imageType);
     void slotUpdateImageSource(const QString &imageSource);
     void slotUpdateRotationAngle(int rotationAngle);

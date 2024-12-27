@@ -36,7 +36,7 @@ signals:
     void heightChanged();
 
 public slots:
-    void onResize(int width, int height);
+    void transformResizeTrigger(int width, int height);
     void onUpdateImageSize(int width, int height);
 
 private:

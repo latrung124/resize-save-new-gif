@@ -43,7 +43,7 @@ void ResizeTransformModel::endConnection()
     disconnect(this, &ResizeTransformModel::resizeHeight, ImageController::instance(), &ImageController::slotResizeHeight);
 }
 
-void ResizeTransformModel::onResize(int width, int height)
+void ResizeTransformModel::transformResizeTrigger(int width, int height)
 {
     emit resizeWidth(width);
     emit resizeHeight(height);

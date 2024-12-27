@@ -14,7 +14,7 @@ ImageController::ImageController(QObject *parent)
     : QObject(parent)
     , m_imageModel(std::make_unique<ImageModel>())
 {
-    connect(m_imageModel.get(), &ImageModel::updateImageLoaded, this, &ImageController::slotUpdateImageLoaded);
+    connect(m_imageModel.get(), &ImageModel::updateImageSize, this, &ImageController::slotUpdateImageSize);
 }
 
 ImageController *ImageController::instance()
@@ -59,9 +59,9 @@ bool ImageController::initImageModel()
     return true;
 }
 
-void ImageController::slotUpdateImageLoaded()
+void ImageController::slotUpdateImageSize(int width, int height)
 {
-    emit updateImageSize(m_imageModel->width(), m_imageModel->height());
+    emit updateImageSize(width, height);
 }
 
 void ImageController::slotUpdateImageType(const ImageType &imageType)

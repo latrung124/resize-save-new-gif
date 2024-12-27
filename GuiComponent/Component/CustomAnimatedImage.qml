@@ -11,8 +11,6 @@ Item {
     property string source: ""
     property QtObject model: null
 
-    signal updateImageLoaded()
-
     width: 350
     height: 350
 
@@ -65,6 +63,7 @@ Item {
 
         AnimatedImage {
             id: animatedImage
+
             source: internal.animatedImageSource
             asynchronous: true
             cache: false
@@ -82,9 +81,7 @@ Item {
 
             onStatusChanged: function(status) {
                 if (status === AnimatedImage.Ready) {
-                    model.width = animatedImage.width;
-                    model.height = animatedImage.height;
-                    root.updateImageLoaded();
+                    model.onUpdateImageSize(animatedImage.width, animatedImage.height);
                 }
             }
         }
