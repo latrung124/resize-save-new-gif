@@ -22,8 +22,7 @@ public:
         RotateRight = 2,
         FlipHorizontalRight = 3,
         FlipHorizontalLeft = 4,
-        ResizeWidth = 5,
-        ResizeHeight = 6
+        Resize = 5
     };
     Q_ENUM(ETransformType)
 

@@ -71,8 +71,6 @@ set(MODEL_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/FlipTransformListModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformListModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/RotationTransformListModel.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformListModel.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformListModel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformModel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Model/Transform/ResizeTransformModel.cpp
 )

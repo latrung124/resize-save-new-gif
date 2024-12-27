@@ -16,7 +16,7 @@ DetailAspectRatioFeatureModel::DetailAspectRatioFeatureModel(QObject *parent)
 {
     m_rotationTransformListModel = std::make_shared<RotationTransformListModel>(parent);
     m_flipTransformListModel = std::make_shared<FlipTransformListModel>(parent);
-    m_resizeTransformModel = std::make_shared<ResizeTransformModel>(parent);
+    m_resizeTransformModel = std::make_shared<ResizeTransformModel>(TransformType::Resize, "Resources/resize.png", "Resize", parent);
 
     connect(ImageController::instance(), &ImageController::updateImageSize, m_resizeTransformModel.get(), &ResizeTransformModel::onUpdateImageSize);
 }

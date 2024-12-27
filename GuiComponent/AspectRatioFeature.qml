@@ -103,14 +103,25 @@ Item {
                     CustomTextField {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                        Layout.topMargin: 5
+                        Layout.bottomMargin: 8
                         placeholderText: "Width"
                         text: resizeTransformModel ? resizeTransformModel.width : 0
                     }
                     CustomTextField {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                        Layout.topMargin: 5
+                        Layout.bottomMargin: 8
                         placeholderText: "Height"
                         text: resizeTransformModel ? resizeTransformModel.height : 0
+                    }
+
+                    FeatureButton {
+                        iconSource: resizeTransformModel.iconSource
+                        onClicked: function() {
+                            console.log("resizeTransformModel: ", resizeTransformModel.width, resizeTransformModel.height);
+                        }
                     }
                 }
             }

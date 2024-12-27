@@ -57,4 +57,6 @@ qt_add_qml_module(GuiComponent
         "Resources/file-explorer.png"
         "Resources/add-image.svg"
         "Resources/add-image.png"
+        "Resources/resize.svg"
+        "Resources/resize.png"
 )
