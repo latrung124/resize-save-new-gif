@@ -53,14 +53,18 @@ signals:
     void heightChanged();
     void rotationAngleChanged();
     void flipTypeChanged();
+    void updateImageLoaded();
+
+public slots:
+    void onUpdateImageLoaded();
 
 private:
     ImageType m_imageType;
     QString m_imageSource;
-    int m_width;
-    int m_height;
     int m_rotationAngle;
     int m_flipType;
+    int m_width;
+    int m_height;
 };
 
 #endif // IMAGEMODEL_H

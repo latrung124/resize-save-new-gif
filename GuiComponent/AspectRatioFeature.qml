@@ -20,7 +20,7 @@ Item {
     property var aspectRatioFeatureModel: null
     property var rotateFeatureModel: null
     property var flipFeatureModel: null
-    property var resizeFeatureModel: null
+    property var resizeTransformModel: null
 
     signal updateTransformListModel(QtObject aspectRatioFeatureModel)
 
@@ -28,7 +28,7 @@ Item {
         console.log("updateTransformListModel")
         rotateFeatureModel = aspectRatioFeatureModel.rotationTransformListModel
         flipFeatureModel = aspectRatioFeatureModel.flipTransformListModel
-        resizeFeatureModel = aspectRatioFeatureModel.resizeTransformListModel
+        resizeTransformModel = aspectRatioFeatureModel.resizeTransformModel
     }
 
     Rectangle {
@@ -104,11 +104,13 @@ Item {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         placeholderText: "Width"
+                        text: resizeTransformModel ? resizeTransformModel.width : 0
                     }
                     CustomTextField {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         placeholderText: "Height"
+                        text: resizeTransformModel ? resizeTransformModel.height : 0
                     }
                 }
             }

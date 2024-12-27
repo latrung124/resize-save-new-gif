@@ -100,6 +100,12 @@ Item {
                 anchors.fill: parent
                 source: imageModel ? imageModel.imageSource : ""
                 model: root.imageModel
+
+                onUpdateImageLoaded: function() {
+                    if (imageModel) {
+                        imageModel.onUpdateImageLoaded();
+                    }
+                }
             }
 
             DropArea {

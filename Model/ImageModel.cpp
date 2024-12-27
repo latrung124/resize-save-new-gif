@@ -96,3 +96,8 @@ void ImageModel::setHeight(int height)
     m_height = height;
     emit heightChanged();
 }
+
+void ImageModel::onUpdateImageLoaded()
+{
+    emit updateImageLoaded();
+}

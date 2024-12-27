@@ -5,21 +5,25 @@
 * Description: This file contains the implementation for the detail aspect ratio feature model.
 */
 
+#include "ImageController.h"
 #include "DetailAspectRatioFeatureModel.h"
-#include "ResizeTransformListModel.h"
 #include "RotationTransformListModel.h"
 #include "FlipTransformListModel.h"
+#include "ResizeTransformModel.h"
 
 DetailAspectRatioFeatureModel::DetailAspectRatioFeatureModel(QObject *parent)
     : QObject(parent)
 {
-    m_resizeTransformListModel = std::make_shared<ResizeTransformListModel>(parent);
     m_rotationTransformListModel = std::make_shared<RotationTransformListModel>(parent);
     m_flipTransformListModel = std::make_shared<FlipTransformListModel>(parent);
+    m_resizeTransformModel = std::make_shared<ResizeTransformModel>(parent);
+
+    connect(ImageController::instance(), &ImageController::updateImageSize, m_resizeTransformModel.get(), &ResizeTransformModel::onUpdateImageSize);
 }
 
 DetailAspectRatioFeatureModel::~DetailAspectRatioFeatureModel()
 {
+    disconnect(ImageController::instance(), &ImageController::updateImageSize, m_resizeTransformModel.get(), &ResizeTransformModel::onUpdateImageSize);
 }
 
 QObject *DetailAspectRatioFeatureModel::rotationTransformListModel() const
@@ -32,7 +36,7 @@ QObject *DetailAspectRatioFeatureModel::flipTransformListModel() const
     return m_flipTransformListModel.get();
 }
 
-QObject *DetailAspectRatioFeatureModel::resizeTransformListModel() const
+QObject *DetailAspectRatioFeatureModel::resizeTransformModel() const
 {
-    return m_resizeTransformListModel.get();
+    return m_resizeTransformModel.get();
 }

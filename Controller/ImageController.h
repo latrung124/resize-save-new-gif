@@ -25,10 +25,14 @@ public:
     static ImageController *instance();
     ~ImageController() = default;
 
+signals:
+    void updateImageSize(int width, int height);
+
 public slots:
     void onModuleInitialized(EngineWPtr engine);
     void onModuleDestroyed();
 
+    void slotUpdateImageLoaded();
     void slotUpdateImageType(const ImageType &imageType);
     void slotUpdateImageSource(const QString &imageSource);
     void slotUpdateRotationAngle(int rotationAngle);

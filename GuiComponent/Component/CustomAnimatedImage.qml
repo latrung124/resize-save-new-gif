@@ -11,6 +11,8 @@ Item {
     property string source: ""
     property QtObject model: null
 
+    signal updateImageLoaded()
+
     width: 350
     height: 350
 
@@ -76,6 +78,14 @@ Item {
             BusyIndicator {
                 anchors.centerIn: parent
                 running: animatedImage.status === AnimatedImage.Loading
+            }
+
+            onStatusChanged: function(status) {
+                if (status === AnimatedImage.Ready) {
+                    model.width = animatedImage.width;
+                    model.height = animatedImage.height;
+                    root.updateImageLoaded();
+                }
             }
         }
 
