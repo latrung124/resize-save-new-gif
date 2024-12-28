@@ -56,9 +56,11 @@ signals:
     void updateImageSize(int width, int height);
 
 public slots:
-    void onUpdateImageSize(int width, int height);
+    void onUpdateImageLoaded(int width, int height);
 
 private:
+    void resetImage();
+
     ImageType m_imageType;
     QString m_imageSource;
     int m_rotationAngle;

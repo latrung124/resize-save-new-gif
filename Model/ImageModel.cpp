@@ -22,6 +22,13 @@ ImageModel::~ImageModel()
 {
 }
 
+void ImageModel::resetImage()
+{
+    m_rotationAngle = 0;
+    emit rotationAngleChanged();
+    setFlipType(1);
+}
+
 ImageType ImageModel::imageType() const
 {
     return m_imageType;
@@ -46,6 +53,7 @@ void ImageModel::setImageSource(const QString &imageSource)
     if (m_imageSource == imageSource) {
         return;
     }
+    resetImage();
     m_imageSource = imageSource;
     emit imageSourceChanged();
 }
@@ -97,7 +105,7 @@ void ImageModel::setHeight(int height)
     emit heightChanged();
 }
 
-void ImageModel::onUpdateImageSize(int width, int height)
+void ImageModel::onUpdateImageLoaded(int width, int height)
 {
     setWidth(width);
     setHeight(height);
