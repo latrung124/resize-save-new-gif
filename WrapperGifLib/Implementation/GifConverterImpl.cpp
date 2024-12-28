@@ -23,8 +23,6 @@ extern "C" {
 #include "getarg.h"
 }
 
-#include <set>
-#include <thread>
 #include <sstream>
 
 bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *GifFile) {
@@ -228,7 +226,8 @@ bool GifConverterImpl::readGifFile(const char *fileName) {
     return m_gifReader.readGifFile(fileName);
 }
 
-bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const char *destFileName) {
+bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const char *destFileName,
+                                               const TransformDescriptor& transformDescriptor) {
     QImageReader reader(QString::fromLocal8Bit(srcFileName));
 
     GifFileType *GifFile = NULL;
@@ -268,7 +267,17 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             return false;
         }
         image = image.convertToFormat(QImage::Format_Indexed8);
-        image = image.scaled(QSize(240, 240), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        image = image.scaled(QSize(transformDescriptor.width, transformDescriptor.height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        double rotationRadians = transformDescriptor.rotation * M_PI / 180.0;
+        image = image.transformed(QTransform().rotateRadians(rotationRadians), Qt::SmoothTransformation);
+        if (transformDescriptor.flipType == -1) {
+            QTransform flipTransform;
+            QPointF flipPoint(image.width() / 2, image.height() / 2);
+            flipTransform.translate(flipPoint.x(), flipPoint.y());
+            flipTransform.scale(-1, 1);
+            flipTransform.translate(-flipPoint.x(), -flipPoint.y());
+            image = image.transformed(flipTransform, Qt::SmoothTransformation);
+        }
 
         if (i == 0) {
             ExtensionBlock *loopExtBlock = (ExtensionBlock *)malloc(sizeof(ExtensionBlock) * 2);

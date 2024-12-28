@@ -53,6 +53,15 @@ struct ImageDescriptor {
     uint8_t packed;
 };
 
+struct TransformDescriptor {
+    uint16_t width = 0;
+    uint16_t height = 0;
+    uint16_t x = 0;
+    uint16_t y = 0;
+    int16_t rotation = 0;
+    int16_t flipType = 0;
+};
+
 } // namespace gif_89a
 
 } // namespace gif_util

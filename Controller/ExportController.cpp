@@ -43,22 +43,30 @@ void ExportController::exportGif(QObject *model, QString destFileName) {
         return;
     }
 
+    TransformDescriptor transformDescriptor;
+    transformDescriptor.width = imageModel->width();
+    transformDescriptor.height = imageModel->height();
+    transformDescriptor.rotation = imageModel->rotationAngle();
+    transformDescriptor.flipType = imageModel->flipType();
+
     const auto fileName = imageModel->imageSource().replace(m_filePrefixExp, "");
     destFileName = destFileName.replace(m_filePrefixExp, "");
 
-    exportGifAsync(fileName, destFileName, [this](bool isSuccess) {
+    exportGifAsync(fileName, destFileName, transformDescriptor, [this](bool isSuccess) {
         emit exportGifFinished(isSuccess);
     });
 }
 
-void ExportController::exportGifAsync(QString fileName, QString destFileName, std::function<void(bool)> resCallback) {
-    std::thread([this, fileName, destFileName, resCallback]() {
+void ExportController::exportGifAsync(QString fileName, QString destFileName,
+                                     const TransformDescriptor &transformDescriptor,
+                                     std::function<void(bool)> resCallback) {
+    std::thread([this, fileName, destFileName, transformDescriptor, resCallback]() {
         bool isResult = false;
         isResult = m_gifConverter->readGifFile(fileName.toStdString().c_str());
         // Convert back to char* if needed
         QByteArray destFileNameBytes = destFileName.toLocal8Bit();
         const char* destFileNameChar = destFileNameBytes.constData();
-        isResult = m_gifConverter->createGifFileFromQImage(fileName.toStdString().c_str(), destFileNameChar);
+        isResult = m_gifConverter->createGifFileFromQImage(fileName.toStdString().c_str(), destFileNameChar, transformDescriptor);
 
         if (resCallback)
             resCallback(isResult);

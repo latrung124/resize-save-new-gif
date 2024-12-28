@@ -18,11 +18,17 @@
 class IGifDebugger;
 class IGifConverter;
 
+namespace gif_util::gif_89a {
+    struct TransformDescriptor;
+}
+
 class ExportController : public QObject
 {
     Q_OBJECT
 
 public:
+    using TransformDescriptor = gif_util::gif_89a::TransformDescriptor;
+
     ExportController(QObject *parent = nullptr);
     ~ExportController();
 
@@ -33,7 +39,9 @@ signals:
     void exportGifFinished(bool isSuccess);
 
 private:
-    void exportGifAsync(QString fileName, QString destFileName, std::function<void(bool)> resCallback);
+    void exportGifAsync(QString fileName, QString destFileName,
+                    const TransformDescriptor &transformDescriptor,
+                    std::function<void(bool)> resCallback);
 
     std::unique_ptr<IGifDebugger> m_gifDebugger;
     std::unique_ptr<IGifConverter> m_gifConverter;

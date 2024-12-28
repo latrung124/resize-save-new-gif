@@ -19,14 +19,21 @@ class QImage;
 struct GifFileType;
 struct ExtensionBlock;
 
+namespace gif_util::gif_89a {
+    struct TransformDescriptor;
+}
+
 class GifConverterImpl : public IGifConverter
 {
 public:
+    using TransformDescriptor = gif_util::gif_89a::TransformDescriptor;
+
     GifConverterImpl() = default;
     ~GifConverterImpl() = default;
 
     bool readGifFile(const char* fileName) override;
-    bool createGifFileFromQImage(const char* srcFileName, const char* destFileName) override;
+    bool createGifFileFromQImage(const char* srcFileName, const char* destFileName,
+                                 const TransformDescriptor &transformDescriptor) override;
 
 private:
     bool AddGraphicsControlExtension(GifFileType *gifFile, int imageIndex, int delayTimeCentiseconds);
