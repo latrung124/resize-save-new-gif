@@ -101,6 +101,7 @@ Item {
                     spacing: internal.featureRowSpacing
 
                     CustomTextField {
+                        id: widthTextField
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         Layout.topMargin: 5
@@ -109,6 +110,7 @@ Item {
                         text: resizeTransformModel ? resizeTransformModel.width : 0
                     }
                     CustomTextField {
+                        id: heightTextField
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         Layout.topMargin: 5
@@ -120,8 +122,7 @@ Item {
                     FeatureButton {
                         iconSource: resizeTransformModel.iconSource
                         onClicked: function() {
-                            console.log("resizeTransformModel: ", resizeTransformModel.width, resizeTransformModel.height);
-                            resizeTransformModel.transformResizeTrigger(resizeTransformModel.width, resizeTransformModel.height);
+                            resizeTransformModel.transformResizeTrigger(parseInt(widthTextField.text), parseInt(heightTextField.text));
                         }
                     }
                 }

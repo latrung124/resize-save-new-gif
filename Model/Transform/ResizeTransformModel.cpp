@@ -45,6 +45,8 @@ void ResizeTransformModel::endConnection()
 
 void ResizeTransformModel::transformResizeTrigger(int width, int height)
 {
+    setWidth(width);
+    setHeight(height);
     emit resizeWidth(width);
     emit resizeHeight(height);
 }
