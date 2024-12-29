@@ -16,6 +16,7 @@ set(components
     Component/CustomTextField.qml
     Component/RowFeatureButtons.qml
     Component/CustomAnimatedImage.qml
+    Component/CustomProgressBar.qml
 )
 
 foreach(component ${components})
@@ -38,6 +39,7 @@ qt_add_qml_module(GuiComponent
         Component/CustomTextField.qml
         Component/RowFeatureButtons.qml
         Component/CustomAnimatedImage.qml
+        Component/CustomProgressBar.qml
     RESOURCES
         "Resources/crop-sidebar-icon.svg"
         "Resources/crop-sidebar-icon.png"
