@@ -9,7 +9,6 @@ import QtQuick.Controls.Basic
 
 Item {
     id: root
-    property int animationDuration: 300
 
     property alias text: buttonText.text
 
@@ -50,14 +49,6 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
-    }
-
-    Behavior on y {
-        NumberAnimation {
-            duration: root.animationDuration
-            easing.type: Easing.Bezier
-            easing.bezierCurve: [0.23, 1, 0.32, 1, 1]
-        }
     }
 
     MouseArea {

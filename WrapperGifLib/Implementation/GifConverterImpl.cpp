@@ -253,7 +253,7 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
     //TODO: handle color table size = 0
 
-    if (EGifPutScreenDesc(GifFile, 240, 240, 8, 0, ColorMap) == GIF_ERROR) {
+    if (EGifPutScreenDesc(GifFile, transformDescriptor.width, transformDescriptor.height, 8, 0, ColorMap) == GIF_ERROR) {
         qDebug() << "Failed to write screen descriptor";
         return false;
     }
