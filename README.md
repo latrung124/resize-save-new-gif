@@ -1,4 +1,7 @@
+
 # GIF Resizer  
+## Demonstrated video.
+[![Watch the video](https://img.youtube.com/vi/UIbTYUVFbZ4/0.jpg)](https://youtu.be/UIbTYUVFbZ4)
 
 This repository contains a tool for resizing GIFs, built using **giflib** and the **Qt Framework**.  
 
