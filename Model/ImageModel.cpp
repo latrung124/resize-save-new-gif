@@ -7,6 +7,9 @@
 
 #include "ImageModel.h"
 
+#include <QImage>
+#include <QRegularExpression>
+
 ImageModel::ImageModel(QObject *parent)
     : QObject(parent)
     , m_imageType(ImageType::None)
@@ -24,9 +27,19 @@ ImageModel::~ImageModel()
 
 void ImageModel::resetImage()
 {
-    m_rotationAngle = 0;
-    emit rotationAngleChanged();
+    auto tempImageSource = m_imageSource;
+    const auto fileName = tempImageSource.replace(QRegularExpression("^file:///+"), "");
+    QImage image(fileName);
+    if (image.isNull()) {
+        return;
+    }
+
+    setWidth(image.width());
+    setHeight(image.height());
     setFlipType(1);
+    m_rotationAngle = 0;
+    emit updateImageSize(m_width, m_height);
+    emit rotationAngleChanged();
 }
 
 ImageType ImageModel::imageType() const
@@ -53,8 +66,8 @@ void ImageModel::setImageSource(const QString &imageSource)
     if (m_imageSource == imageSource) {
         return;
     }
-    resetImage();
     m_imageSource = imageSource;
+    resetImage();
     emit imageSourceChanged();
 }
 
@@ -103,11 +116,4 @@ void ImageModel::setHeight(int height)
 {
     m_height = height;
     emit heightChanged();
-}
-
-void ImageModel::onUpdateImageLoaded(int width, int height)
-{
-    setWidth(width);
-    setHeight(height);
-    emit updateImageSize(width, height);
 }

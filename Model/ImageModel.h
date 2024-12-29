@@ -55,9 +55,6 @@ signals:
     void flipTypeChanged();
     void updateImageSize(int width, int height);
 
-public slots:
-    void onUpdateImageLoaded(int width, int height);
-
 private:
     void resetImage();
 

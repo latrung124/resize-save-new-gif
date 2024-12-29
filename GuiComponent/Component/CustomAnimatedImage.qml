@@ -81,7 +81,6 @@ Item {
 
             onStatusChanged: function(status) {
                 if (status === AnimatedImage.Ready) {
-                    model.onUpdateImageLoaded(animatedImage.width, animatedImage.height);
                     widthBinding.target = animatedImage;
                     heightBinding.target = animatedImage;
                 }
