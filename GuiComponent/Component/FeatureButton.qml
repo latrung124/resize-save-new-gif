@@ -52,13 +52,15 @@ Item {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: root.clicked()
+        onClicked: function() {
+            root.clicked()
+        }
     }
 
     states: [
         State {
             name: "hovered"
-            when: mouseArea.containsMouse
+            when: !mouseArea.pressed && mouseArea.containsMouse
             PropertyChanges {
                 target: colorOverlay
                 color: "white"
@@ -71,13 +73,27 @@ Item {
 
             StateChangeScript {
                 script: {
+                    y = 0;
                     y -= 4;
                 }
             }
         },
         State {
+            name: "pressed"
+            when: mouseArea.pressed && mouseArea.containsMouse
+            PropertyChanges {
+                target: colorOverlay
+                color: "white"
+            }
+
+            PropertyChanges {
+                target: backgroundRect
+                color: "#51595c"
+            }
+        },
+        State {
             name: "normal"
-            when: !mouseArea.containsMouse
+            when: !mouseArea.containsMouse && !mouseArea.pressed
             PropertyChanges {
                 target: colorOverlay
                 color: "#000000"
