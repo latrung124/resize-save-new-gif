@@ -267,9 +267,9 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             return false;
         }
         image = image.convertToFormat(QImage::Format_Indexed8);
-        image = image.scaled(QSize(transformDescriptor.width, transformDescriptor.height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         double rotationRadians = transformDescriptor.rotation * M_PI / 180.0;
         image = image.transformed(QTransform().rotateRadians(rotationRadians), Qt::SmoothTransformation);
+        image = image.scaled(QSize(transformDescriptor.width, transformDescriptor.height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         if (transformDescriptor.flipType == -1) {
             QTransform flipTransform;
             QPointF flipPoint(image.width() / 2, image.height() / 2);

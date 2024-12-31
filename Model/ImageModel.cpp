@@ -79,6 +79,10 @@ int ImageModel::rotationAngle() const
 void ImageModel::setRotationAngle(int rotationAngle)
 {
     m_rotationAngle = (m_rotationAngle + rotationAngle) % 360;
+    int tempWidth = m_width;
+    m_width = m_height;
+    m_height = tempWidth;
+    emit updateImageSize(m_width, m_height);
     emit rotationAngleChanged();
 }
 
