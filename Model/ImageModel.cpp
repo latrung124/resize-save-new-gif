@@ -31,15 +31,17 @@ void ImageModel::resetImage()
     const auto fileName = tempImageSource.replace(QRegularExpression("^file:///+"), "");
     QImage image(fileName);
     if (image.isNull()) {
-        return;
+        setWidth(0);
+        setHeight(0);
+    } else {
+        setWidth(image.width());
+        setHeight(image.height());
     }
-
-    setWidth(image.width());
-    setHeight(image.height());
     setFlipType(1);
     m_rotationAngle = 0;
     emit updateImageSize(m_width, m_height);
     emit rotationAngleChanged();
+
 }
 
 ImageType ImageModel::imageType() const
@@ -63,9 +65,6 @@ QString ImageModel::imageSource() const
 
 void ImageModel::setImageSource(const QString &imageSource)
 {
-    if (m_imageSource == imageSource) {
-        return;
-    }
     m_imageSource = imageSource;
     resetImage();
     emit imageSourceChanged();

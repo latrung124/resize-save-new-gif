@@ -189,9 +189,7 @@ Item {
         }
 
         function refreshImage() {
-            var temp = imageModel.imageSource;
-            imageModel.imageSource = "";
-            imageModel.imageSource = temp;
+            imageModel.imageSource = imageModel.imageSource;
         }
 
         function deleteImage() {
