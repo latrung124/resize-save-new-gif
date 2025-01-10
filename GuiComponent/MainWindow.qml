@@ -80,12 +80,10 @@ ApplicationWindow {
             }
             onFeatureSelected: function(model) {
                 featureLoader.source = model.source;
-                if (model.detailFeatureModel) {
-                    console.log("rotationTransformListModel not null: source: ")
-                    featureLoader.item.updateTransformListModel(model.detailFeatureModel);
-                } else {
-                    console.log("rotationTransformListModel is null, source: ")
+                if (!model.detailFeatureModel) {
+                    return;
                 }
+                featureLoader.item.updateTransformListModel(model.detailFeatureModel);
                 root.featureModel = model.detailFeatureModel;
             }
         }

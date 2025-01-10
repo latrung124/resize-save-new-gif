@@ -90,14 +90,14 @@ Item {
                 id: widthBinding
                 target: null
                 property: "width"
-                value: model.width
+                value: model ? model.width : 0
             }
 
             Binding {
                 id: heightBinding
                 target: null
                 property: "height"
-                value: model.height
+                value: model ? model.height : 0
             }
         }
 

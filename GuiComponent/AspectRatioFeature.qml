@@ -120,8 +120,11 @@ Item {
                     }
 
                     FeatureButton {
-                        iconSource: resizeTransformModel.iconSource
+                        iconSource: resizeTransformModel ? resizeTransformModel.iconSource : ""
                         onClicked: function() {
+                            if (!resizeTransformModel) {
+                                return;
+                            }
                             resizeTransformModel.transformResizeTrigger(parseInt(widthTextField.text), parseInt(heightTextField.text));
                         }
                     }

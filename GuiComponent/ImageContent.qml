@@ -33,7 +33,6 @@ Item {
     FileDialog {
         id: importFileDialog
         title: "Please choose an image"
-        currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
         nameFilters: ["All files (*.png *.jpg *.jpeg *.gif *.bmp)", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp"]
         onAccepted: function() {
             console.log("Accepted: " + importFileDialog.currentFile);
@@ -46,8 +45,8 @@ Item {
     FileDialog {
         id: exportFileDialog
         title: "Please choose a folder to export"
-        currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
         fileMode: FileDialog.SaveFile
+        nameFilters: ["GIF files (*.gif)", "*.gif"]
         onAccepted: function() {
             console.log("Accepted: " + exportFileDialog.currentFile);
             if (imageModel && imageModel.imageSource === "") {
