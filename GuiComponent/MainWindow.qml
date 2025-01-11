@@ -17,6 +17,10 @@ ApplicationWindow {
     visible: true
     width: 1366
     height: 780
+    maximumWidth: screen.width
+    maximumHeight: screen.height
+    minimumWidth: 1024
+    minimumHeight: 768
 
     title: qsTr("Convert Image Tool")
     color: "white"
