@@ -7,6 +7,7 @@
 
 #include "Gif89aReader.h"
 
+#include <QtGlobal>
 #include <iostream>
 #include <cstring>
 #include <memory>
@@ -32,7 +33,7 @@ uint16_t Gif89aReader::readLittleEndian()
 
 std::vector<gif_util::gif_89a::ColorTableEntry> Gif89aReader::readColorTable(int size) {
     std::vector<gif_util::gif_89a::ColorTableEntry> colorTable(size);
-    file.read(reinterpret_cast<char*>(colorTable.data()), size * 3);
+    readFromStream(file, colorTable.data());
     return colorTable;
 }
 
@@ -44,8 +45,8 @@ bool Gif89aReader::readGifFile(const char *filename) {
     }
 
     // Read header
-    file.read(header.signature, 3);
-    file.read(header.version, 3);
+    readFromStream(file, header.signature);
+    readFromStream(file, header.version);
     if (std::strncmp(header.signature, "GIF", 3) != 0 ||
         std::strncmp(header.version, "89a", 3) != 0) {
         std::cerr << "Invalid GIF89a format" << std::endl;
@@ -56,9 +57,9 @@ bool Gif89aReader::readGifFile(const char *filename) {
     // Read logical screen descriptor
     header.width = readLittleEndian();
     header.height = readLittleEndian();
-    file.read(reinterpret_cast<char*>(&header.packed), 1);
-    file.read(reinterpret_cast<char*>(&header.bgColorIndex), 1);
-    file.read(reinterpret_cast<char*>(&header.pixelAspectRatio), 1);
+    readFromStream(file, &header.packed);
+    readFromStream(file, &header.bgColorIndex);
+    readFromStream(file, &header.pixelAspectRatio);
 
     // Read global color table if present
     hasGlobalColorTable = (header.packed & 0x80) != 0;
@@ -70,7 +71,7 @@ bool Gif89aReader::readGifFile(const char *filename) {
     // Read application extensions
     while (file.peek() == 0x21) {
         uint8_t extensionType;
-        file.read(reinterpret_cast<char*>(&extensionType), 1);
+        readFromStream(file, &extensionType);
         switch (extensionType) {
             case 0xFF: // Application extension
                 applicationExtensions.push_back(readApplicationExtension());
@@ -104,17 +105,19 @@ gif_util::gif_89a::ApplicationExtension Gif89aReader::readApplicationExtension()
     }
     // Read application identifier (8 bytes)
     char identifier[9] = {0};
-    file.read(identifier, 8);
+    readFromStream(file, identifier);
     appExt.identifier = identifier;
     // Read authentication code (3 bytes)
     char authCode[4] = {0};
-    file.read(authCode, 3);
+    readFromStream(file, authCode);
     appExt.authCode = authCode;
     // Read data sub-blocks
     while (file.read(reinterpret_cast<char*>(&blockSize), 1) && blockSize > 0) {
         size_t currentSize = appExt.data.size();
         appExt.data.resize(currentSize + blockSize);
         file.read(reinterpret_cast<char*>(appExt.data.data() + currentSize), blockSize);
+        auto const datasubblock = appExt.data.data() + currentSize;
+        readFromStream(file, datasubblock);
     }
     return appExt;
 }
