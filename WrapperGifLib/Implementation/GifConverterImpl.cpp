@@ -6,7 +6,6 @@
 
 #include "GifConverterImpl.h"
 
-#include <vector>
 #include <QImage>
 #include <QColor>
 #include <QDebug>
@@ -34,11 +33,14 @@ bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *Gi
     int Width = qImage.width();
     int Height = qImage.height();
     int ColorMapSize = 256;
-    int imageByteSize = Width * Height;
 
-    std::vector<GifByteType> RedBuffer(imageByteSize, 0);
-    std::vector<GifByteType> GreenBuffer(imageByteSize, 0);
-    std::vector<GifByteType> BlueBuffer(imageByteSize, 0);
+    GifByteType *RedBuffer = (GifByteType *)malloc(Width * Height);
+    GifByteType *GreenBuffer = (GifByteType *)malloc(Width * Height);
+    GifByteType *BlueBuffer = (GifByteType *)malloc(Width * Height);
+
+    memset(RedBuffer, 0, Width * Height);
+    memset(GreenBuffer, 0, Width * Height);
+    memset(BlueBuffer, 0, Width * Height);
 
     for (int y = 0; y < Height; ++y) {
         for (int x = 0; x < Width; ++x) {
@@ -51,28 +53,31 @@ bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *Gi
     }
 
     ColorMapObject *OutputColorMap = NULL;
-    std::vector<GifByteType> OutputBuffer(Width * Height * sizeof(GifByteType));
+    GifByteType *OutputBuffer = NULL;
 
-    if ((OutputColorMap = GifMakeMapObject(ColorMapSize, NULL)) == NULL) {
+    if ((OutputColorMap = GifMakeMapObject(ColorMapSize, NULL)) == NULL ||
+        (OutputBuffer = (GifByteType *)malloc(
+             Width * Height * sizeof(GifByteType))) == NULL) {
         qDebug() << "Failed to allocate memory required, aborted.";
         return false;
     }
 
-    if (GifQuantizeBuffer(Width, Height, &ColorMapSize, RedBuffer.data(),
-                          static_cast<GifByteType*>(GreenBuffer.data()),
-                          static_cast<GifByteType*>(BlueBuffer.data()),
-                          static_cast<GifByteType*>(OutputBuffer.data()),
+    if (GifQuantizeBuffer(Width, Height, &ColorMapSize, RedBuffer,
+                          GreenBuffer, BlueBuffer, OutputBuffer,
                           OutputColorMap->Colors) == GIF_ERROR) {
         qDebug() << "Failed to quantize image";
         return false;
     }
+    free((char *)RedBuffer);
+    free((char *)GreenBuffer);
+    free((char *)BlueBuffer);
 
     if (EGifPutImageDesc(GifFile, 0, 0, Width, Height, false, OutputColorMap) == GIF_ERROR) {
         qDebug() << "Failed to write image descriptor";
         return false;
     }
 
-    GifByteType *Ptr = static_cast<GifByteType*>(OutputBuffer.data());
+    GifByteType *Ptr = OutputBuffer;
 
     for (int i = 0; i < Height; i++) {
         if (EGifPutLine(GifFile, Ptr, Width) == GIF_ERROR) {
@@ -226,7 +231,7 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
     QImageReader reader(QString::fromLocal8Bit(srcFileName));
 
     GifFileType *GifFile = NULL;
-    if ((GifFile = EGifOpenFileName(destFileName, false, NULL)) == NULL) {
+    if ((GifFile = EGifOpenFileName(destFileName, true, NULL)) == NULL) {
         qDebug() << "Failed to create GIF file";
         return false;
     }
@@ -253,7 +258,7 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
         return false;
     }
 
-    GifFile->SavedImages = std::vector<SavedImage>(sizeof(SavedImage) * reader.imageCount()).data();
+    GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage) * reader.imageCount());
 
     for (int i = 0; i < reader.imageCount(); ++i) {
         QImage image = reader.read();
@@ -275,20 +280,28 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
         }
 
         if (i == 0) {
-            std::vector<ExtensionBlock> loopExtBlock(2);
+            ExtensionBlock *loopExtBlock = (ExtensionBlock *)malloc(sizeof(ExtensionBlock) * 2);
+            if (!loopExtBlock) {
+                qDebug() << "Memory allocation failed for loopExtBlock";
+                return false;
+            }
+
             loopExtBlock[0].ByteCount = 11;
-            loopExtBlock[0].Bytes = std::vector<GifByteType>(loopExtBlock[0].ByteCount).data();
+            loopExtBlock[0].Bytes = (GifByteType *)malloc(11);
             loopExtBlock[0].Function = APPLICATION_EXT_FUNC_CODE;
             if (!loopExtBlock[0].Bytes) {
+                free(loopExtBlock);
                 qDebug() << "Memory allocation failed for loopExtBlock[0].Bytes";
                 return false;
             }
             memcpy(loopExtBlock[0].Bytes, "NETSCAPE2.0", 11);
 
             loopExtBlock[1].ByteCount = 3;
-            loopExtBlock[1].Bytes = std::vector<GifByteType>(loopExtBlock[1].ByteCount).data();
+            loopExtBlock[1].Bytes = (GifByteType *)malloc(3);
             loopExtBlock[1].Function = CONTINUE_EXT_FUNC_CODE;
             if (!loopExtBlock[1].Bytes) {
+                free(loopExtBlock[0].Bytes);
+                free(loopExtBlock);
                 qDebug() << "Memory allocation failed for loopExtBlock[1].Bytes";
                 return false;
             }
@@ -301,6 +314,10 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
                           EGifPutExtensionBlock(GifFile, 3, loopExtBlock[1].Bytes) != GIF_ERROR &&
                           EGifPutExtensionTrailer(GifFile) != GIF_ERROR);
 
+            free(loopExtBlock[0].Bytes);
+            free(loopExtBlock[1].Bytes);
+            free(loopExtBlock);
+
             if (!success) {
                 qDebug() << "Failed to write Netscape Extension blocks";
                 return false;
@@ -311,10 +328,15 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             gcb.DelayTime = reader.nextImageDelay()/10;
             gcb.TransparentColor = -1;
             
-            std::vector<GifByteType> GifExtension(4, 0);
+            GifByteType *GifExtension = (GifByteType*)malloc(4);
+            if (!GifExtension) {
+                qDebug() << "Memory allocation failed for GifExtension";
+                return false;
+            }
 
-            EGifGCBToExtension(&gcb, static_cast<GifByteType*>(GifExtension.data()));
-            success = (EGifPutExtension(GifFile, GRAPHICS_EXT_FUNC_CODE, 4, GifExtension.data()) != GIF_ERROR);
+            EGifGCBToExtension(&gcb, GifExtension);
+            success = (EGifPutExtension(GifFile, GRAPHICS_EXT_FUNC_CODE, 4, GifExtension) != GIF_ERROR);
+            free(GifExtension);
 
             if (!success) {
                 qDebug() << "Failed to write first frame delay";
@@ -326,9 +348,15 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
             gcb.DelayTime = reader.nextImageDelay()/10;
             gcb.TransparentColor = -1;
 
-            std::vector<GifByteType> GifExtension(4, 0);
-            EGifGCBToExtension(&gcb, static_cast<GifByteType*>(GifExtension.data()));
-            bool success = (EGifPutExtension(GifFile, GRAPHICS_EXT_FUNC_CODE, 4, static_cast<GifByteType*>(GifExtension.data())) != GIF_ERROR);
+            GifByteType *GifExtension = (GifByteType*)malloc(4);
+            if (!GifExtension) {
+                qDebug() << "Memory allocation failed for GifExtension";
+                return false;
+            }
+
+            EGifGCBToExtension(&gcb, GifExtension);
+            bool success = (EGifPutExtension(GifFile, GRAPHICS_EXT_FUNC_CODE, 4, GifExtension) != GIF_ERROR);
+            free(GifExtension);
 
             if (!success) {
                 qDebug() << "EGifPutExtension failed!";

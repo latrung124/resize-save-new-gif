@@ -28,14 +28,6 @@ public:
     const std::vector<ApplicationExtension>& getApplicationExtensions() const;
 
 private:
-    template <typename T>
-    void readFromStream(std::ifstream &stream, T* data) {
-        stream.read(reinterpret_cast<char*>(data), sizeof(T));
-        if (!stream.good()) {
-            throw std::runtime_error("...");
-        }
-    }
-
     uint16_t readLittleEndian();
     std::vector<ColorTableEntry> readColorTable(int size);
     ApplicationExtension readApplicationExtension();
