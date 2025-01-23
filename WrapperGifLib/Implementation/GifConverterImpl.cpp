@@ -149,7 +149,7 @@ void GifConverterImpl::printInfoOfGif(const char* fileName) {
     }
     for (int i = 0; i < gif->ImageCount; i++) {
         SavedImage *image = &gif->SavedImages[i];
-        qDebug() <<"Image %d:\n" << i + 1;
+        qDebug() <<"Image number: " << i + 1;
         qDebug() <<"  Image position: left: " << image->ImageDesc.Left << " top: " << image->ImageDesc.Top;
         qDebug() <<"  Image size: width: " << image->ImageDesc.Width << " height: " << image->ImageDesc.Height;
         qDebug() <<"  Interlaced: " << image->ImageDesc.Interlace;

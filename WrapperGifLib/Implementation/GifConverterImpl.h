@@ -34,10 +34,10 @@ public:
     bool readGifFile(const char* fileName) override;
     bool createGifFileFromQImage(const char* srcFileName, const char* destFileName,
                                  const TransformDescriptor &transformDescriptor) override;
+    void printInfoOfGif(const char* fileName) override;
 
 private:
     bool AddGraphicsControlExtension(GifFileType *gifFile, int imageIndex, int delayTimeCentiseconds);
-    void printInfoOfGif(const char* fileName);
     void PrintExtensionBlockHexToDebug(const ExtensionBlock *extBlock);
     bool convertImageByFrame(const QImage &qImage, GifFileType *GifFile);
 

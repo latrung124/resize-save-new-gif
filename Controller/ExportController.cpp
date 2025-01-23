@@ -67,6 +67,7 @@ void ExportController::exportGifAsync(QString fileName, QString destFileName,
         QByteArray destFileNameBytes = destFileName.toLocal8Bit();
         const char* destFileNameChar = destFileNameBytes.constData();
         isResult = m_gifConverter->createGifFileFromQImage(fileName.toStdString().c_str(), destFileNameChar, transformDescriptor);
+        m_gifConverter->printInfoOfGif(destFileName.toStdString().c_str());
 
         if (resCallback)
             resCallback(isResult);
