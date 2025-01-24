@@ -86,6 +86,10 @@ bool GifConverterImpl::convertImageByFrame(const QImage &qImage, GifFileType *Gi
         }
         Ptr += Width;
     }
+    GifFreeMapObject(OutputColorMap);
+    if (OutputBuffer != NULL) {
+        free(OutputBuffer);
+    }
 
     return true;
 }
@@ -238,24 +242,30 @@ bool GifConverterImpl::createGifFileFromQImage(const char *srcFileName, const ch
 
     EGifSetGifVersion(GifFile, true);
 
-    ColorMapObject *ColorMap = GifMakeMapObject(256, NULL);
-    if (ColorMap == NULL) {
-        qDebug() << "Failed to create color map";
-        return false;
-    }
+    ColorMapObject *ColorMap = NULL;
 
     auto globalColorTable = m_gifReader.getGlobalColorTable();
-    for (int i = 0; i < globalColorTable.size(); ++i) {
-        ColorMap->Colors[i].Red = globalColorTable[i].r;
-        ColorMap->Colors[i].Green = globalColorTable[i].g;
-        ColorMap->Colors[i].Blue = globalColorTable[i].b;
-    }
+    const uint16_t colorTableSize = globalColorTable.size();
+    if (colorTableSize > 0) {
+        ColorMap = GifMakeMapObject(256, NULL);
+        if (ColorMap == NULL) {
+            qDebug() << "Failed to create color map";
+        }
 
-    //TODO: handle color table size = 0
+        for (int i = 0; i < colorTableSize; ++i) {
+            ColorMap->Colors[i].Red = globalColorTable[i].r;
+            ColorMap->Colors[i].Green = globalColorTable[i].g;
+            ColorMap->Colors[i].Blue = globalColorTable[i].b;
+        }
+    }
 
     if (EGifPutScreenDesc(GifFile, transformDescriptor.width, transformDescriptor.height, 8, 0, ColorMap) == GIF_ERROR) {
         qDebug() << "Failed to write screen descriptor";
         return false;
+    }
+
+    if (ColorMap != NULL) {
+        GifFreeMapObject(ColorMap);
     }
 
     GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage) * reader.imageCount());
